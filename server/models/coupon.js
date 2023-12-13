@@ -6,6 +6,7 @@ var couponSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        uppercase: true,
     },
     discount: {
         type: Number,
@@ -18,4 +19,4 @@ var couponSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 //Export the model
-module.exports = mongoose.model('User', couponSchema);
+module.exports = mongoose.model('Coupon', couponSchema);
