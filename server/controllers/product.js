@@ -59,15 +59,28 @@ const getProducts = asyncHandler(async (req, res) => {
 
     //execute query
     //số lượng sản phẩn thỏa mãn điều kiện !== số lượng sản phẩm trả về 1 lần gọi API
-    queryCommand.exec(async (err, response) => {
-        if (err) throw new Error(err.message)
-        const counts = await Product.find(formatedQueries).countDocuments()
-        return res.status(200).json({
-            success: response ? true : false,
-            counts,
-            products: response ? response : 'Cannot get products!',
+    //[Mongoose mới không hỗ trợ callback]
+    // queryCommand.exec(async (err, response) => {
+    //     if (err) throw new Error(err.message)
+    //     const counts = await Product.find(formatedQueries).countDocuments()
+    //     return res.status(200).json({
+    //         success: response ? true : false,
+    //         counts,
+    //         products: response ? response : 'Cannot get products!',
+    //     })
+    // })
+    queryCommand
+        .exec()
+        .then(async (response) => {
+            const counts = await Product.find(formatedQueries).countDocuments()
+            return res.status(200).json({
+                success: response ? true : false,
+                products: response ? response : 'Cannot find any product!',
+                counts,
+            })
+        }).catch((error) => {
+            throw new Error(error.message)
         })
-    })
 })
 
 const updateProduct = asyncHandler(async (req, res) => {
