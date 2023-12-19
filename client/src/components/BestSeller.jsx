@@ -2,6 +2,8 @@ import { apiGetProducts } from '../apis/product'
 import { useState, useEffect } from 'react'
 import { Product } from './'
 import Slider from "react-slick"
+import banner2 from '../assets/banner2.avif'
+import banner3 from '../assets/banner3.avif'
 
 const tabs = [
     { id: 1, name: 'best seller' },
@@ -64,6 +66,10 @@ const BestSeller = () => {
                         />
                     ))}
                 </Slider>
+            </div>
+            <div className='w-full flex mt-4 gap-4'>
+                <img src={banner2} alt="banner" className='flex-1 object-contain'/>
+                <img src={banner3} alt="banner" className='flex-1 object-contain'/>
             </div>
         </div>
     )
