@@ -1,8 +1,9 @@
 import { memo, useState, useEffect } from "react"
 import icons from "../ultils/icons"
 import { apiGetProducts } from "../apis"
-import { renderStarFromNumber, formatMoney } from "../ultils/helper"
+import { renderStarFromNumber, formatMoney, secondToHms } from "../ultils/helper"
 import {CountDown} from './'
+import moment from 'moment'
 
 const { MdStar, FiMenu } = icons
 let idInterval
@@ -18,8 +19,21 @@ const DealDaily = () => {
         const response = await apiGetProducts({ limit: 1, page: Math.round(Math.random()*5), totalRating: 5 })
         if (response.success){
             setDealdaily(response.products[0])
-            setHour(23)
-            setMinute(59)
+            // const h = 23 - new Date().getHours()
+            // const m = 60 - new Date().getMinutes()
+            // const s = 60 - new Date().getSeconds()
+            // setHour(h)
+            // setMinute(m)
+            // setSecond(s)
+            const today = `${moment().format('MM/DD/YYYY')} 00:00:00`
+            const second = new Date(today).getTime() - new Date().getTime() + 24*60*60*1000
+            const number = secondToHms(second)
+            setHour(number.h)
+            setMinute(number.m)
+            setSecond(number.s)
+        }else{
+            setHour(0)
+            setMinute(9)
             setSecond(59)
         }
     }
@@ -31,7 +45,6 @@ const DealDaily = () => {
 
     useEffect(()=>{
         idInterval = setInterval(()=>{
-            console.log('interval')
             if(second > 0) setSecond(prev=>prev-1)
             else{
                 if(minute > 0){
