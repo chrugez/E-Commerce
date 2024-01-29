@@ -1,7 +1,7 @@
 import {Route, Routes} from 'react-router-dom'
 import {Home, Login, Public} from './pages/public'
 import path from './ultils/path'
-import { getCategories } from './store/asyncActions'
+import { getCategories } from './store/app/asyncActions'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 

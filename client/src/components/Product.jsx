@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import label1 from '../assets/trending.png'
 import label2 from '../assets/new.png'
 import { renderStarFromNumber, formatMoney } from "../ultils/helper"
@@ -24,7 +24,7 @@ const Product = ({ productData, isNew }) => {
                 setIsShowOption(false)
             }}
             >
-                <div className="w-full relative">
+                <div className="w-full flex items-center justify-center relative">
                     {isShowOption && <div className='absolute bottom-0 left-0 right-0 flex justify-center gap-2 animate-slide-top'>
                         <SelectOption icon={<FaHeart/>}/>
                         <SelectOption icon={<FiMenu/>}/>
@@ -38,7 +38,9 @@ const Product = ({ productData, isNew }) => {
                 <img src={isNew ? label2 : label1} alt="label" className="absolute w-[70px] h-[25px] top-[-15px] right-[-18px] object-cover"/>
                 </div>
                 <div className="flex flex-col gap-1 items-start w-full mt-[15px]">
-                    <span className='flex h-4'>{renderStarFromNumber(productData?.totalRating)}</span>
+                    <span className='flex h-4'>{renderStarFromNumber(productData?.totalRating)?.map((el,index)=>(
+                    <span key={index}>{el}</span>
+                ))}</span>
                     <span className="line-clamp-1">{productData?.title}</span>
                     <span>{`${formatMoney(productData?.price)} VND`}</span>
                 </div>
@@ -47,4 +49,4 @@ const Product = ({ productData, isNew }) => {
     )
 }
 
-export default Product
+export default memo(Product)

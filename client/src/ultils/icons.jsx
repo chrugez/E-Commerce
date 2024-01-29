@@ -1,5 +1,5 @@
 import { FaPhoneAlt } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import { MdEmail,MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { FaShoppingCart, FaUserCircle, FaEye, FaHeart } from "react-icons/fa";
 import { MdStar, MdStarOutline } from "react-icons/md";
 import { FiMenu } from "react-icons/fi";
@@ -13,7 +13,8 @@ const icons = {
     MdStarOutline,
     FaEye,
     FiMenu,
-    FaHeart
+    FaHeart,
+    MdOutlineKeyboardArrowRight
 }
 
 export default icons

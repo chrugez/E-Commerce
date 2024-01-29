@@ -1,7 +1,8 @@
 import { apiGetProducts } from '../apis/product'
 import { useState, useEffect } from 'react'
-import { Product } from './'
-import Slider from "react-slick"
+import { Product, CustomSlider } from './'
+import {getNewProducts} from '../store/product/asyncActions'
+import { useDispatch, useSelector } from 'react-redux'
 import banner2 from '../assets/banner2.avif'
 import banner3 from '../assets/banner3.avif'
 
@@ -10,39 +11,32 @@ const tabs = [
     { id: 2, name: 'new arrivals' }
 ]
 
-const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1
-}
-
 const BestSeller = () => {
     const [bestSellers, setBestSellers] = useState(null)
-    const [newProducts, setNewProducts] = useState(null)
     const [activedTab, setActivedTab] = useState(1)
     const [products, setProducts] = useState(null)
+    const dispatch = useDispatch()
+    const {newProducts} = useSelector(state => state.products)
 
     const fetchProducts = async () => {
-        const response = await Promise.all([apiGetProducts({ sort: '-sold' }), apiGetProducts({ sort: '-createdAt' })])
-        if (response[0]?.success) {
-            setBestSellers(response[0].products)
-            setProducts(response[0].products)
+        const response = await apiGetProducts({ sort: '-sold' })
+        if (response?.success) {
+            setBestSellers(response.products)
+            setProducts(response.products)
         }
-        if (response[1]?.success) setNewProducts(response[1].products)
+        
 
     }
 
     useEffect(() => {
         fetchProducts()
+        dispatch(getNewProducts())
     }, [])
 
     useEffect(()=>{
         if(activedTab === 1) setProducts(bestSellers)
         if(activedTab === 2) setProducts(newProducts)
     },[activedTab])
-    console.log({ bestSellers, newProducts });
     return (
         <div>
             <div className='flex uppercase text-xl border-b-4 pb-2 border-main'>
@@ -57,15 +51,7 @@ const BestSeller = () => {
                 ))}
             </div>
             <div className='mt-4 mx-[-8px]'>
-                <Slider {...settings}>
-                    {products?.map(el=>(
-                        <Product
-                        key={el._id}
-                        productData = {el}
-                        isNew={activedTab === 1 ? false : true}
-                        />
-                    ))}
-                </Slider>
+                <CustomSlider products={products} activedTab={activedTab}/>
             </div>
             <div className='w-full flex mt-4 gap-4'>
                 <img src={banner2} alt="banner" className='flex-1 object-contain'/>
