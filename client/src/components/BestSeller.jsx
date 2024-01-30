@@ -1,5 +1,5 @@
 import { apiGetProducts } from '../apis/product'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { Product, CustomSlider } from './'
 import {getNewProducts} from '../store/product/asyncActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -61,4 +61,4 @@ const BestSeller = () => {
     )
 }
 
-export default BestSeller
+export default memo(BestSeller)

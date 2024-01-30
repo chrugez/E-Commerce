@@ -1,5 +1,5 @@
 import {Route, Routes} from 'react-router-dom'
-import {Home, Login, Public} from './pages/public'
+import {Home, Login, Public, FAQ, Services, Blog, DetailProduct, Products} from './pages/public'
 import path from './ultils/path'
 import { getCategories } from './store/app/asyncActions'
 import { useDispatch } from 'react-redux'
@@ -15,8 +15,13 @@ function App() {
       <Routes>
         <Route path={path.PUBLIC} element={<Public/>}>
           <Route path={path.HOME} element={<Home/>}/>
-          <Route path={path.LOGIN} element={<Login/>}/>
+          <Route path={path.PRODUCTS} element={<Products/>}/>
+          <Route path={path.BLOGS} element={<Blog/>}/>
+          <Route path={path.DETAIL_PRODUCT__PID__TITLE} element={<DetailProduct/>}/>
+          <Route path={path.FAQ} element={<FAQ/>}/>
+          <Route path={path.OUR_SERVICES} element={<Services/>}/>
         </Route>
+        <Route path={path.LOGIN} element={<Login/>}/>
       </Routes>
     </div>
   )
