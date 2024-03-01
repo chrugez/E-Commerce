@@ -15,7 +15,7 @@ const Header = () => {
         <div className='flex flex-col items-center px-4 border-r'>
           <span className='flex items-center gap-2'>
             <FaPhoneAlt color='red'/>
-            <span className='font-semibold'>(+1800) 000 8808</span>
+            <span className='font-semibold'>(+84) 365892986</span>
           </span>
           <span>
             Mon-Sat: 9:00Am - 8:00PM
@@ -24,7 +24,7 @@ const Header = () => {
         <div className='flex flex-col items-center px-4 border-r'>
           <span className='flex items-center gap-2'>
             <MdEmail color='red'/>
-            <span className='font-semibold'>SUPPORT@TADATHEMES.COM</span>
+            <span className='font-semibold'>HOANGCHUNG.WORK@GMAIL.COM</span>
           </span>
           <span>
             Online Support 24/7
