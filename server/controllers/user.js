@@ -35,37 +35,91 @@ const register = asyncHandler(async (req, res) => {
     if (user) throw new Error('User has existed!')
     else {
         const token = makeToken()
-        res.cookie('dataregister', { ...req.body, token }, { httpOnly: true, maxAge: 15 * 60 * 1000 })
-        const html = `Please click to the link below to finish register your account!
-    <a href=${process.env.URL_SERVER}/api/user/finalregister/${token}>Click here!</a>`
-        await sendMail({ email, html, subject: 'Finish register account!' })
+        const emailEdited = btoa(email) + '@' + token
+        const newUser = await User.create({
+            email: emailEdited, password, firstName, lastName, mobile
+        })
+        if (newUser) {
+            const html = `<h2>Register code:</h2><br/><spa>This code will expire in 5 minutes</span><br/><blockquote>${token}</blockquote>`
+            await sendMail({ email, html, subject: 'Confirm register account in HQC Store!' })
+        }
+        setTimeout(async () => {
+            await User.deleteOne({ email: emailEdited })
+        }, [5 * 60 * 1000])
         return res.json({
-            success: true,
-            mes: 'Please check your email to active account!'
+            success: newUser ? true : false,
+            mes: newUser ? 'Please check your email to active account!' : 'Something went wrong, please try later!'
         })
     }
 })
 
+// const register = asyncHandler(async (req, res) => {
+//     const { email, password, firstName, lastName, mobile } = req.body
+//     if (!email || !password || !firstName || !lastName || !mobile)
+//         return res.status(400).json({
+//             success: false,
+//             mes: 'Missing inputs',
+//         })
+//     const user = await User.findOne({ email })
+//     if (user) throw new Error('User has existed!')
+//     else {
+//         const token = makeToken()
+//         res.cookie('dataregister', { ...req.body, token }, { httpOnly: true, maxAge: 15 * 60 * 1000 })
+//         const html = `Please click to the link below to finish register your account! This link will expire in 15 minutes
+//     <a href=${process.env.URL_SERVER}/api/user/finalregister/${token}>Click here!</a>`
+//         await sendMail({ email, html, subject: 'Finish register account!' })
+//         return res.json({
+//             success: true,
+//             mes: 'Please check your email to active account!'
+//         })
+//     }
+// })
+
 const finalRegister = asyncHandler(async (req, res) => {
-    const cookie = req.cookies
     const { token } = req.params
-    if (!cookie || cookie?.dataregister?.token !== token) {
-        res.clearCookie('dataregister')
-        return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
+    const notActivedEmail = await User.findOne({ email: new RegExp(`${token}$`) })
+    if (notActivedEmail) {
+        notActivedEmail.email = atob(notActivedEmail?.email?.split('@')[0])
+        notActivedEmail.save()
     }
-    const newUser = await User.create({
-        email: cookie?.dataregister?.email,
-        password: cookie?.dataregister?.password,
-        mobile: cookie?.dataregister?.mobile,
-        firstName: cookie?.dataregister?.firstName,
-        lastName: cookie?.dataregister?.lastName,
+    return res.json({
+        success: notActivedEmail ? true : false,
+        mes: notActivedEmail ? 'Register is successful. Please go login!' : 'Something went wrong, please try later!'
     })
-    res.clearCookie('dataregister')
-    if (newUser) return res.redirect(`${process.env.CLIENT_URL}/finalregister/success`)
-    else return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
+    // const newUser = await User.create({
+    //     email: cookie?.dataregister?.email,
+    //     password: cookie?.dataregister?.password,
+    //     mobile: cookie?.dataregister?.mobile,
+    //     firstName: cookie?.dataregister?.firstName,
+    //     lastName: cookie?.dataregister?.lastName,
+    // })
+    // res.clearCookie('dataregister')
+    // if (newUser) return res.redirect(`${process.env.CLIENT_URL}/finalregister/success`)
+    // else return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
     // Thành công => redirect(`${process.env.CLIENT_URL}/finalregister/success`)
     // Thất bại => redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
 })
+
+// const finalRegister = asyncHandler(async (req, res) => {
+//     const cookie = req.cookies
+//     const { token } = req.params
+//     if (!cookie || cookie?.dataregister?.token !== token) {
+//         res.clearCookie('dataregister')
+//         return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
+//     }
+//     const newUser = await User.create({
+//         email: cookie?.dataregister?.email,
+//         password: cookie?.dataregister?.password,
+//         mobile: cookie?.dataregister?.mobile,
+//         firstName: cookie?.dataregister?.firstName,
+//         lastName: cookie?.dataregister?.lastName,
+//     })
+//     res.clearCookie('dataregister')
+//     if (newUser) return res.redirect(`${process.env.CLIENT_URL}/finalregister/success`)
+//     else return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
+//     // Thành công => redirect(`${process.env.CLIENT_URL}/finalregister/success`)
+//     // Thất bại => redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
+// })
 
 //refreshToken => Cấp mới accessToken
 //accessToken => Xác thực người dùng, phân quyền người dùng.

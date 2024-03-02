@@ -35,7 +35,7 @@ export const validate = (payload, setInvalidFields) =>{
         switch (arr[0]) {
             case 'email':
                 const regex = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/'
-                if(!arr[1].match(regex)){
+                if(arr[1].match(regex)){
                     invalids++
                     setInvalidFields(prev=>[...prev,{name: arr[0], mes: 'Invalid email!'}])
                 }

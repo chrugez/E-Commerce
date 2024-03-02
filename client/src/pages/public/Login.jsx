@@ -1,9 +1,9 @@
 import React, {useState, useCallback, useEffect} from "react"
 import { InputField, Button } from "../../components"
 import ImgLogin from '../../assets/login.webp'
-import { apiRegister, apiLogin, apiForgotPassword } from "../../apis/user"
+import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from "../../apis/user"
 import Swal from 'sweetalert2'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import path from "../../ultils/path"
 import {login} from '../../store/user/userSlice'
 import { useDispatch } from "react-redux"
@@ -21,6 +21,8 @@ const Login = () => {
         lastName: '', 
         mobile: ''
     })
+    const [token, setToken] = useState('')
+    const [isVerifyEmail, setIsVerifyEmail] = useState(false)
     const [email, setEmail] = useState('')
     const [invalidFields, setInvalidFields] = useState([])
     const [isForgotPassword, setIsForgotPassword] = useState(false)
@@ -54,16 +56,17 @@ const Login = () => {
         const {firstName, lastName, mobile, ...data} = payload
 
         const invalids = isRegister ? validate(payload, setInvalidFields) : validate(data, setInvalidFields)
-        console.log(invalids);
+        
         if(invalids === 0){
             if(isRegister){
             const response = await apiRegister(payload)
             if(response.success){
-                Swal.fire('Congratulation!', response.mes, 'success')
-                .then(()=>{
-                    setIsRegister(false)
-                    resetPayload()
-                })
+                setIsVerifyEmail(true)
+                // Swal.fire('Congratulation!', response.mes, 'success')
+                // .then(()=>{
+                //     setIsRegister(false)
+                //     resetPayload()
+                // })
             }else{
                 Swal.fire('Opps!', response.mes, 'error')
             }
@@ -78,8 +81,42 @@ const Login = () => {
         }
         }
     },[payload, isRegister])
+
+    const finalRegister = async() =>{
+        const response = await apiFinalRegister(token)
+        if(response.success){
+            Swal.fire('Congratulation!', response.mes, 'success')
+                .then(()=>{
+                    setIsRegister(false)
+                    resetPayload()
+                })
+        }else{
+            Swal.fire('Opps!', response.mes, 'error')
+        }
+        setIsVerifyEmail(false)
+        setToken('')
+    }
+
     return (
         <div className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 w-screen h-screen flex relative">
+            {isVerifyEmail && <div className="absolute top-0 bottom-0 left-0 right-0 z-50 bg-overlay flex flex-col items-center justify-center">
+                <div className="bg-white w-[500px] rounded-md p-8">
+                    <h4>We sent the register code to your email. Please check your email and enter your code:</h4>
+                    <input 
+                    type="text" 
+                    value={token}
+                    onChange={e=>setToken(e.target.value)}
+                    className="p-2 border rounded-md outline-none"
+                    />
+                    <button 
+                    type="button"
+                    className="px-4 py-2 bg-blue-500 font-semibold text-white rounded-md ml-4"
+                    onClick={finalRegister}
+                    >
+                        Submit
+                    </button>
+                </div>
+            </div>}
             {isForgotPassword && <div 
                 className="absolute top-0 bottom-0 left-0 right-0 z-50 bg-overlay flex items-center justify-center"
                 onClick={(e)=>{
@@ -174,6 +211,7 @@ const Login = () => {
                             Go Login
                         </span>}
                     </div>
+                    <Link to={`/${path.HOME}`} className="text-sm text-blue-500 hover:underline">Back to Home</Link>
                 </div>
             </div>
             <div className="w-1/2 flex flex-col items-center justify-center ">
@@ -184,8 +222,6 @@ const Login = () => {
                 </h1>
                 <img src={ImgLogin} alt="image" className="w-[600px] h-[500px] object-contain" />
             </div>
-            
-            
         </div>
     )
 }

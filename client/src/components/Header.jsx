@@ -32,12 +32,13 @@ const Header = () => {
             Online Support 24/7
           </span>
         </div>
-        <div className='flex items-center gap-2 px-4 border-r'>
+        <div className='flex items-center gap-2 px-4 border-r cursor-pointer'>
           <FaShoppingCart color='red'/>
           <span className=''>0 item(s)</span>
         </div>
-        <div className='flex justify-center items-center px-4'>
+        <div className='flex justify-center items-center px-4 gap-2 cursor-pointer'>
           <FaUserCircle size={24} color='red'/>
+          <span className=''>Profile</span>
         </div>
       </div>
     </div>
