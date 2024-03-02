@@ -1,13 +1,15 @@
-import React, {useState, useCallback} from "react"
+import React, {useState, useCallback, useEffect} from "react"
 import { InputField, Button } from "../../components"
 import ImgLogin from '../../assets/login.webp'
 import { apiRegister, apiLogin, apiForgotPassword } from "../../apis/user"
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom"
 import path from "../../ultils/path"
-import {register} from '../../store/user/userSlice'
+import {login} from '../../store/user/userSlice'
 import { useDispatch } from "react-redux"
 import { toast } from 'react-toastify'
+import { validate } from "../../ultils/helper"
+
 
 const Login = () => {
     const navigate = useNavigate()
@@ -20,6 +22,7 @@ const Login = () => {
         mobile: ''
     })
     const [email, setEmail] = useState('')
+    const [invalidFields, setInvalidFields] = useState([])
     const [isForgotPassword, setIsForgotPassword] = useState(false)
     const [isRegister, setIsRegister] = useState(false)
     const resetPayload = () =>{
@@ -41,9 +44,19 @@ const Login = () => {
             toast.error(response.mes)
         }
     }
+    
+    useEffect(()=>{
+        resetPayload()
+    },[isRegister])
+
+    //SUBMIT
     const handleSubmit = useCallback(async()=>{
         const {firstName, lastName, mobile, ...data} = payload
-        if(isRegister){
+
+        const invalids = isRegister ? validate(payload, setInvalidFields) : validate(data, setInvalidFields)
+        console.log(invalids);
+        if(invalids === 0){
+            if(isRegister){
             const response = await apiRegister(payload)
             if(response.success){
                 Swal.fire('Congratulation!', response.mes, 'success')
@@ -57,11 +70,12 @@ const Login = () => {
         }else{
             const result = await apiLogin(data)
             if(result.success){
-                dispatch(register({isLoggedIn: true, token: result.accessToken, userData: result.userData}))
+                dispatch(login({isLoggedIn: true, token: result.accessToken, userData: result.userData}))
                 navigate(`/${path.HOME}`)
             }else{
                 Swal.fire('Opps!', result.mes, 'error')
             }
+        }
         }
     },[payload, isRegister])
     return (
@@ -94,11 +108,6 @@ const Login = () => {
                     </div>
                 </div> 
             </div>}
-            <div className="w-1/2 flex flex-col items-center justify-center ">
-                <h1 
-                className="text-[40px] font-bold my-8 text-white ">DIGITAL WORLD</h1>
-                <img src={ImgLogin} alt="image" className="w-[600px] h-[500px]" />
-            </div>
             <div className="w-1/2 flex items-center justify-center ">
                 <div className="p-8 bg-white flex flex-col items-center rounded-md min-w-[500px]">
                     <h1 className="text-[28px] font-semibold text-main mb-8">{isRegister ? 'Register' : 'Login'}</h1>
@@ -107,28 +116,38 @@ const Login = () => {
                     value={payload.firstName}
                     setValue={setPayload}
                     nameKey='firstName'
+                    invalidFields={invalidFields}
+                    setInvalidFields={setInvalidFields}
                     />
                     <InputField
                     value={payload.lastName}
                     setValue={setPayload}
                     nameKey='lastName'
+                    invalidFields={invalidFields}
+                    setInvalidFields={setInvalidFields}
                     />
                     <InputField
                     value={payload.mobile}
                     setValue={setPayload}
                     nameKey='mobile'
+                    invalidFields={invalidFields}
+                    setInvalidFields={setInvalidFields}
                     />
                         </div>}
                     <InputField
                     value={payload.email}
                     setValue={setPayload}
                     nameKey='email'
+                    invalidFields={invalidFields}
+                    setInvalidFields={setInvalidFields}
                     />
                     <InputField
                     value={payload.password}
                     setValue={setPayload}
                     nameKey='password'
                     type='password'
+                    invalidFields={invalidFields}
+                    setInvalidFields={setInvalidFields}
                     />
                     <Button
                     name={isRegister ? 'Register' : 'Login'}
@@ -157,6 +176,15 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+            <div className="w-1/2 flex flex-col items-center justify-center ">
+                <h1 
+                className="text-[48px] font-bold my-8 ">
+                    <span className="text-main px-2">HQC</span>
+                    <span className="text-[32px] font-semibold text-gray-800">STORE</span>
+                </h1>
+                <img src={ImgLogin} alt="image" className="w-[600px] h-[500px] object-contain" />
+            </div>
+            
             
         </div>
     )

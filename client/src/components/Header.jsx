@@ -9,7 +9,9 @@ const Header = () => {
   return (
     <div className="w-main flex justify-between h-[110px] py-[35px]">
       <Link to={`${path.HOME}`}>
-      <img src={logo} alt="logo" className='w-[234px] object-contain' />
+      {/* <img src={logo} alt="logo" className='w-[234px] object-contain' /> */}
+      <span className='font-bold text-main text-[32px] px-2'>HQC</span>
+      <span className='font-semibold text-gray-800 text-[24px]'>STORE</span>
       </Link>
       <div className='flex text-[13px]'>
         <div className='flex flex-col items-center px-4 border-r'>
