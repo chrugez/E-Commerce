@@ -61,7 +61,7 @@ const Footer = () => {
                         <span>Testmonials</span>
                     </div>
                     <div className="flex-1">
-                        <h3 className="mb-[20px] text-[15px] font-medium border-l-4 border-main pl-[15px]">#DIGITALWORLDSTORE</h3>
+                        <h3 className="mb-[20px] text-[15px] font-medium border-l-4 border-main pl-[15px]">#HQCSTORE</h3>
                     </div>
                 </div>
             </div>

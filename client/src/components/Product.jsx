@@ -9,7 +9,7 @@ import path from '../ultils/path'
 
 const {FaEye, FiMenu, FaHeart} = icons
 
-const Product = ({ productData, isNew }) => {
+const Product = ({ productData, isNew, normal }) => {
 
     const [isShowOption, setIsShowOption] = useState(false)
 
@@ -38,7 +38,7 @@ const Product = ({ productData, isNew }) => {
                     alt="thumb_product"
                     className="w-[243px] h-[243px] object-contain"
                     />
-                <img src={isNew ? label2 : label1} alt="label" className="absolute w-[70px] h-[25px] top-[-15px] right-[-18px] object-cover"/>
+                {!normal && <img src={isNew ? label2 : label1} alt="label" className="absolute w-[70px] h-[25px] top-[-15px] right-[-18px] object-cover"/>}
                 </div>
                 <div className="flex flex-col gap-1 items-start w-full mt-[15px]">
                     <span className='flex h-4'>{renderStarFromNumber(productData?.totalRating)?.map((el,index)=>(

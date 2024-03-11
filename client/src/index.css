@@ -3,17 +3,17 @@
 @tailwind components;
 @tailwind utilities;
 
-button.slick-next{
+.custom-slider button.slick-next{
     right: 80px;
     z-index: 10;
 }
 
-button.slick-prev {
+.custom-slider button.slick-prev {
     left: 20px;
     z-index: 10;
 }
 
-button.slick-next::before{
+.custom-slider button.slick-next::before{
     color: gray;
     content: '\276F';
     background-color: rgb(246, 232, 232);
@@ -23,9 +23,10 @@ button.slick-next::before{
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 50%;
 }
 
-button.slick-prev::before {
+.custom-slider button.slick-prev::before {
     color: gray;
     content: '\276E';
     background-color: rgb(246, 232, 232);
@@ -35,4 +36,43 @@ button.slick-prev::before {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 50%;
+}
+
+.image-slider button.slick-next {
+    right: 20px;
+    top: 56px;
+    z-index: 10;
+}
+
+.image-slider button.slick-prev {
+    left: 0px;
+    top: 56px;
+    z-index: 10;
+}
+
+.image-slider button.slick-next::before {
+    color: gray;
+    content: '\276F';
+    background-color: rgb(236, 219, 185);
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.image-slider button.slick-prev::before {
+    color: gray;
+    content: '\276E';
+    background-color: rgb(236, 219, 185);
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
 }
