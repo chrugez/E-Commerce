@@ -76,3 +76,21 @@
     align-items: center;
     border-radius: 50%;
 }
+
+/* .my-masonry-grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-left: -8px;
+    width: auto;
+}
+
+.my-masonry-grid_column {
+    padding-left: 8px;
+    background-clip: padding-box;
+} */
+
+/* Style your items */
+.my-masonry-grid_column>div {
+    margin-bottom: 20px;
+}
