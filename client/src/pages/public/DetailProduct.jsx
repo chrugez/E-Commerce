@@ -17,14 +17,19 @@ const settings = {
 const DetailProduct = () => {
   const { pid, title, category } = useParams()
   const [product, setProduct] = useState(null)
+  const [currentImage, setCurrentImage] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const [relatedProducts, setRelatedProducts] = useState(null)
+  const [update, setUpdate] = useState(false)
   const fetchProductData = async () => {
     const response = await apiGetProduct(pid)
-    if (response.success) setProduct(response?.productData)
+    if (response.success) {
+      setProduct(response?.productData)
+      setCurrentImage(response?.productData?.thumb)
+    }
   }
-  const fetchProducts = async()=>{
-    const rs = await apiGetProducts({category})
+  const fetchProducts = async () => {
+    const rs = await apiGetProducts({ category })
     if (rs.success) setRelatedProducts(rs?.products)
   }
   useEffect(() => {
@@ -32,27 +37,40 @@ const DetailProduct = () => {
       fetchProductData()
       fetchProducts()
     }
+    window.scrollTo(0, 0)
   }, [pid])
 
-  const handleQuantity = useCallback((number)=>{
-    if(!Number(number) || Number(number) < 1 || Number(number) > product?.quantity) {
+  useEffect(() => {
+    if (pid) fetchProductData()
+  }, [update])
+
+  const reRender = useCallback(() => {
+    setUpdate(!update)
+  }, [update])
+
+  const handleQuantity = useCallback((number) => {
+    if (!Number(number) || Number(number) < 1 || Number(number) > product?.quantity) {
       return
-    }else{
+    } else {
       setQuantity(number)
     }
     setQuantity(number)
-  },[quantity])
+  }, [quantity])
 
-  const handlePlus = useCallback(()=>{
-    if(quantity === product?.quantity) return
-    setQuantity(prev=>+prev+1)
-  },[quantity])
+  const handlePlus = useCallback(() => {
+    if (quantity === product?.quantity) return
+    setQuantity(prev => +prev + 1)
+  }, [quantity])
 
-  const handleMinus = useCallback(()=>{
-    if(quantity === 1) return
-    setQuantity(prev=>+prev-1)
-  },[quantity])
+  const handleMinus = useCallback(() => {
+    if (quantity === 1) return
+    setQuantity(prev => +prev - 1)
+  }, [quantity])
 
+  const handleClickImage = (e, el) => {
+    e.stopPropagation()
+    setCurrentImage(el)
+  }
   return (
     <div>
       <div className='h-[80px] '>
@@ -74,13 +92,18 @@ const DetailProduct = () => {
                 height: 1200
               }
             }} /> */}
-            <img src={product?.thumb} alt="thumb" className='w-[500px] h-[458px] border'/>
+            <img src={currentImage} alt="thumb" className='w-[500px] h-[458px] border overflow-hidden' />
           </div>
           <div className='w-[550px]'>
             <Slider className='image-slider' {...settings}>
               {product?.images?.map(el => (
                 <div key={el} className='px-2'>
-                  <img src={el} alt='sub-product' className='w-[200px] h-[143px] border rounded-md object-contain' />
+                  <img
+                    src={el}
+                    alt='sub-product'
+                    className='w-[200px] h-[143px] border rounded-md object-contain cursor-pointer'
+                    onClick={e => handleClickImage(e, el)}
+                  />
                 </div>
               ))}
             </Slider>
@@ -92,12 +115,12 @@ const DetailProduct = () => {
             <span className='pr-10 text-gray-500 text-sm'>{`Sold: ${product?.sold}`}</span>
           </div>
           <div className='flex items-center'>
-            {renderStarFromNumber(product?.totalRating)?.map((el, index)=>(
+            {renderStarFromNumber(product?.totalRating)?.map((el, index) => (
               <span key={index}>{el}</span>
             ))}
           </div>
           <ul className='text-gray-600 list-disc text-sm pl-4'>
-            {product?.description?.map((el,index)=>(
+            {product?.description?.map((el, index) => (
               <li key={index} className='leading-6'>{el}</li>
             ))}
           </ul>
@@ -107,22 +130,28 @@ const DetailProduct = () => {
           </div>
           <div className='flex gap-2 items-center'>
             <span className='font-semibold'>Quantity</span>
-            <SelectQuantity quantity={quantity} handleQuantity={handleQuantity} handleMinus={handleMinus} handlePlus={handlePlus}/>
+            <SelectQuantity quantity={quantity} handleQuantity={handleQuantity} handleMinus={handleMinus} handlePlus={handlePlus} />
           </div>
           <Button
-          name='Add To Cart'
-          style='w-[200px] px-4 py-2 rounded-md text-white bg-main font-semibold my-2'
+            name='Add To Cart'
+            style='w-[200px] px-4 py-2 rounded-md text-white bg-main font-semibold my-2'
           />
         </div>
         {/* <div className='w-1/5'>bonus</div> */}
       </div>
       <div className='w-main m-auto mt-8'>
-        <ProductInformation/>
+        <ProductInformation
+          totalRating={product?.totalRating}
+          totalCount={product?.rating}
+          nameProduct={product?.title}
+          pid={product?._id}
+          reRender={reRender}
+        />
       </div>
       <div className='w-main m-auto mt-8'>
-        <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMERS ALSO BUY:</h3>
-        <div className='w-full mt-4 mx-[-8px] pt-4'> 
-          <CustomSlider products={relatedProducts} normal={true}/>
+        <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMERS ALSO BUY</h3>
+        <div className='w-full mt-4 mx-[-8px] pt-4'>
+          <CustomSlider products={relatedProducts} normal={true} />
         </div>
       </div>
       <div className='h-[100px]'></div>
