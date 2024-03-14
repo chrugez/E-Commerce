@@ -1,7 +1,7 @@
 import React, { memo, useState, useEffect } from 'react'
 import icons from '../ultils/icons'
 import { colors } from '../ultils/constants'
-import { createSearchParams, useNavigate, useParams } from 'react-router-dom'
+import { createSearchParams, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { apiGetProducts } from '../apis'
 import { formatMoney } from '../ultils/helper'
 import useDebounce from '../hooks/useDebounce'
@@ -12,12 +12,15 @@ const { AiOutlineDown } = icons
 const SearchItem = ({ name, activeClick, changeActiveFilter, type = 'checkbox' }) => {
     const navigate = useNavigate()
     const { category } = useParams()
+    const [params] = useSearchParams()
     const [selected, setSelected] = useState([])
     const [highestPrice, setHighestPrice] = useState(null)
     const [price, setPrice] = useState({
         from: '',
         to: ''
     })
+    const debouncePriceFrom = useDebounce(price.from, 2000)
+    const debouncePriceTo = useDebounce(price.to, 2000)
     const fetchHighestPriceProduct = async () => {
         const response = await apiGetProducts({ sort: '-price', limit: 1 })
         if (response.success) setHighestPrice(response.products[0]?.price)
@@ -29,35 +32,45 @@ const SearchItem = ({ name, activeClick, changeActiveFilter, type = 'checkbox' }
         changeActiveFilter(null)
     }
     useEffect(() => {
+        let param = []
+        for (let i of params.entries()) param.push(i)
+        const queries = {}
+        for (let i of param) queries[i[0]] = [1]
         if (selected.length > 0) {
-            navigate({
-                pathname: `/${category}`,
-                search: createSearchParams({
-                    color: selected.join(`,`)
-                }).toString()
-            })
+            queries.color = selected.join(`,`)
+            queries.page = 1
         } else {
-            navigate(`/${category}`)
+            delete queries.color
         }
+        navigate({
+            pathname: `/${category}`,
+            search: createSearchParams(queries).toString()
+        })
     }, [selected])
     useEffect(() => {
         if (type === 'input') fetchHighestPriceProduct()
     }, [type])
-    const debouncePriceFrom = useDebounce(price.from, 2000)
-    const debouncePriceTo = useDebounce(price.to, 2000)
-    useEffect(() => {
-        if (debouncePriceFrom && debouncePriceTo && +debouncePriceFrom > +debouncePriceTo) Swal.fire('Oops!', 'The From price must be less than the To price')
-    }, [debouncePriceFrom, debouncePriceTo])
-    useEffect(() => {
-        const data = {}
-        if (Number(price.from) > 0) data.from = price.from
-        if (Number(price.to) > 0) data.to = price.to
 
+    useEffect(() => {
+        if (debouncePriceFrom && debouncePriceTo && (+debouncePriceFrom > +debouncePriceTo)) Swal.fire('Oops!', 'The From price must be less than the To price')
+    }, [debouncePriceFrom, debouncePriceTo])
+
+    useEffect(() => {
+        let param = []
+        for (let i of params.entries()) param.push(i)
+        const queries = {}
+        for (let i of param) queries[i[0]] = [1]
+        if (Number(price.from) > 0) queries.from = price.from
+        else delete queries.from
+        if (Number(price.to) > 0) queries.to = price.to
+        else delete queries.to
+        queries.page = 1
         navigate({
             pathname: `/${category}`,
-            search: createSearchParams(data).toString()
+            search: createSearchParams(queries).toString()
         })
     }, [debouncePriceFrom, debouncePriceTo])
+
     return (
         <div
             className='p-3 text-gray-500 border gap-2 border-gray-800 flex justify-between items-center relative text-xs cursor-pointer'
