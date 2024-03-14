@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
-import usePagination from '../hooks/usePagination'
-import { PaginItem } from './'
+import usePagination from '../../hooks/usePagination'
+import { PaginItem } from '..'
 
 const Pagination = ({ totalCount }) => {
     const pagination = usePagination(totalCount, 2)

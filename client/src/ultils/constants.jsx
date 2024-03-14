@@ -1,4 +1,5 @@
 import path from './path'
+import icons from './icons'
 
 export const navigation = [
     {
@@ -160,5 +161,47 @@ export const voteOption = [
     {
         id: 5,
         text: 'Perfect'
+    },
+]
+
+const { FaHome, FaUser, FaProductHunt, FaClipboardList } = icons
+
+export const adminSidebar = [
+    {
+        id: 1,
+        type: 'single',
+        text: 'Dashboard',
+        path: `/${path.ADMIN}/${path.DASHBOARD}`,
+        icon: <FaHome />
+    },
+    {
+        id: 2,
+        type: 'single',
+        text: 'Manage User',
+        path: `/${path.ADMIN}/${path.MANAGE_USER}`,
+        icon: <FaUser />
+    },
+    {
+        id: 3,
+        type: 'parent',
+        text: 'Manage Product',
+        submenu: [
+            {
+                text: 'Create Product',
+                path: `/${path.ADMIN}/${path.CREATE_PRODUCT}`
+            },
+            {
+                text: 'Manage Product',
+                path: `/${path.ADMIN}/${path.MANAGE_PRODUCT}`
+            },
+        ],
+        icon: <FaProductHunt />
+    },
+    {
+        id: 4,
+        type: 'single',
+        text: 'Manage Order',
+        path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
+        icon: <FaClipboardList />
     },
 ]

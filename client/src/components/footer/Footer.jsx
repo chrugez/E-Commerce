@@ -1,7 +1,7 @@
 import React, { memo } from "react"
-import icons from "../ultils/icons"
+import icons from "../../ultils/icons"
 
-const {MdEmail} = icons
+const { MdEmail } = icons
 const Footer = () => {
     return (
         <div className="w-full ">
@@ -23,7 +23,7 @@ const Footer = () => {
                         />
                     </div>
                     <div className="h-[56px] w-[56px] bg-[#F04646] rounded-r-full flex items-center justify-center text-white" >
-                        <MdEmail size={18}/>
+                        <MdEmail size={18} />
                     </div>
                 </div>
             </div>

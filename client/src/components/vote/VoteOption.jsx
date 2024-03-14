@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from 'react'
-import { Button } from '../components'
-import { voteOption, } from '../ultils/constants'
-import icons from '../ultils/icons'
+import { Button } from '..'
+import { voteOption, } from '../../ultils/constants'
+import icons from '../../ultils/icons'
 
 const { MdStar, MdStarOutline } = icons
 

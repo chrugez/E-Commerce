@@ -1,8 +1,8 @@
 import { memo, useState, useEffect } from "react"
-import icons from "../ultils/icons"
-import { apiGetProducts } from "../apis"
-import { renderStarFromNumber, formatMoney, secondToHms } from "../ultils/helper"
-import {CountDown} from './'
+import icons from "../../ultils/icons"
+import { apiGetProducts } from "../../apis"
+import { renderStarFromNumber, formatMoney, secondToHms } from "../../ultils/helper"
+import { CountDown } from '..'
 import moment from 'moment'
 
 const { MdStar, FiMenu } = icons
@@ -16,8 +16,8 @@ const DealDaily = () => {
     const [expireTime, setExpireTime] = useState(false)
 
     const fetchDealDaily = async () => {
-        const response = await apiGetProducts({ limit: 1, page: Math.round(Math.random()*5), totalRating: 5 })
-        if (response.success){
+        const response = await apiGetProducts({ limit: 1, page: Math.round(Math.random() * 5), totalRating: 5 })
+        if (response.success) {
             setDealdaily(response.products[0])
             // const h = 23 - new Date().getHours()
             // const m = 60 - new Date().getMinutes()
@@ -26,12 +26,12 @@ const DealDaily = () => {
             // setMinute(m)
             // setSecond(s)
             const today = `${moment().format('MM/DD/YYYY')} 00:00:00`
-            const second = new Date(today).getTime() - new Date().getTime() + 24*60*60*1000
+            const second = new Date(today).getTime() - new Date().getTime() + 24 * 60 * 60 * 1000
             const number = secondToHms(second)
             setHour(number.h)
             setMinute(number.m)
             setSecond(number.s)
-        }else{
+        } else {
             setHour(0)
             setMinute(9)
             setSecond(59)
@@ -43,28 +43,28 @@ const DealDaily = () => {
         fetchDealDaily()
     }, [expireTime])
 
-    useEffect(()=>{
-        idInterval = setInterval(()=>{
-            if(second > 0) setSecond(prev=>prev-1)
-            else{
-                if(minute > 0){
-                    setMinute(prev=>prev-1)
+    useEffect(() => {
+        idInterval = setInterval(() => {
+            if (second > 0) setSecond(prev => prev - 1)
+            else {
+                if (minute > 0) {
+                    setMinute(prev => prev - 1)
                     setSecond(59)
-                }else{
-                    if(hour>0){
-                        setHour(prev=>prev-1)
+                } else {
+                    if (hour > 0) {
+                        setHour(prev => prev - 1)
                         setMinute(59)
                         setSecond(59)
-                    }else{
+                    } else {
                         setExpireTime(!expireTime)
                     }
                 }
             }
-        },1000)
-        return ()=>{
+        }, 1000)
+        return () => {
             clearInterval(idInterval)
         }
-    },[hour, minute, second, expireTime])
+    }, [hour, minute, second, expireTime])
 
     return (
         <div className="w-full border flex-auto">
@@ -82,22 +82,22 @@ const DealDaily = () => {
             </div>
             <div className="flex flex-col gap-1 items-center w-full mt-[15px] text-xl">
                 <span className="line-clamp-1">{dealdaily?.title}</span>
-                <span className='flex h-4'>{renderStarFromNumber(dealdaily?.totalRating)?.map((el,index)=>(
+                <span className='flex h-4'>{renderStarFromNumber(dealdaily?.totalRating)?.map((el, index) => (
                     <span key={index}>{el}</span>
                 ))}</span>
                 <span>{`${formatMoney(dealdaily?.price)} VND`}</span>
             </div>
             <div className="px-4 mt-4">
                 <div className="flex justify-center items-center gap-2 mb-8">
-                    <CountDown unit={'Hours'} number={hour}/>
-                    <CountDown unit={'Minutes'} number={minute}/>
-                    <CountDown unit={'Seconds'} number={second}/>
+                    <CountDown unit={'Hours'} number={hour} />
+                    <CountDown unit={'Minutes'} number={minute} />
+                    <CountDown unit={'Seconds'} number={second} />
                 </div>
                 <button
-                type="button"
-                className="flex gap-2 items-center justify-center w-full bg-main hover:bg-gray-800 text-white py-2 font-medium"
+                    type="button"
+                    className="flex gap-2 items-center justify-center w-full bg-main hover:bg-gray-800 text-white py-2 font-medium"
                 >
-                    <FiMenu/>
+                    <FiMenu />
                     <span>Options</span>
                 </button>
             </div>

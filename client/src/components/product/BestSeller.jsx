@@ -1,10 +1,10 @@
-import { apiGetProducts } from '../apis/product'
+import { apiGetProducts } from '../../apis/product'
 import { useState, useEffect, memo } from 'react'
-import { Product, CustomSlider } from './'
-import {getNewProducts} from '../store/product/asyncActions'
+import { Product, CustomSlider } from '..'
+import { getNewProducts } from '../../store/product/asyncActions'
 import { useDispatch, useSelector } from 'react-redux'
-import banner2 from '../assets/banner2.avif'
-import banner3 from '../assets/banner3.avif'
+import banner2 from '../../assets/banner2.avif'
+import banner3 from '../../assets/banner3.avif'
 
 const tabs = [
     { id: 1, name: 'best seller' },
@@ -16,7 +16,7 @@ const BestSeller = () => {
     const [activedTab, setActivedTab] = useState(1)
     const [products, setProducts] = useState(null)
     const dispatch = useDispatch()
-    const {newProducts} = useSelector(state => state.products)
+    const { newProducts } = useSelector(state => state.products)
 
     const fetchProducts = async () => {
         const response = await apiGetProducts({ sort: '-sold' })
@@ -24,7 +24,7 @@ const BestSeller = () => {
             setBestSellers(response.products)
             setProducts(response.products)
         }
-        
+
 
     }
 
@@ -33,10 +33,10 @@ const BestSeller = () => {
         dispatch(getNewProducts())
     }, [])
 
-    useEffect(()=>{
-        if(activedTab === 1) setProducts(bestSellers)
-        if(activedTab === 2) setProducts(newProducts)
-    },[activedTab])
+    useEffect(() => {
+        if (activedTab === 1) setProducts(bestSellers)
+        if (activedTab === 2) setProducts(newProducts)
+    }, [activedTab])
     return (
         <div>
             <div className='flex uppercase text-xl border-b-4 pb-2 border-main'>
@@ -51,11 +51,11 @@ const BestSeller = () => {
                 ))}
             </div>
             <div className='mt-4 mx-[-8px]'>
-                <CustomSlider products={products} activedTab={activedTab}/>
+                <CustomSlider products={products} activedTab={activedTab} />
             </div>
             <div className='w-full flex mt-4 gap-4'>
-                <img src={banner2} alt="banner" className='flex-1 object-contain'/>
-                <img src={banner3} alt="banner" className='flex-1 object-contain'/>
+                <img src={banner2} alt="banner" className='flex-1 object-contain' />
+                <img src={banner3} alt="banner" className='flex-1 object-contain' />
             </div>
         </div>
     )

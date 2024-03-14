@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from 'react'
-import icons from '../ultils/icons'
+import icons from '../../ultils/icons'
 import clsx from 'clsx'
 import { useSearchParams, useNavigate, useParams, createSearchParams } from 'react-router-dom'
 

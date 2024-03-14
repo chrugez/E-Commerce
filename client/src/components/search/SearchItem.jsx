@@ -1,10 +1,10 @@
 import React, { memo, useState, useEffect } from 'react'
-import icons from '../ultils/icons'
-import { colors } from '../ultils/constants'
+import icons from '../../ultils/icons'
+import { colors } from '../../ultils/constants'
 import { createSearchParams, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { apiGetProducts } from '../apis'
-import { formatMoney } from '../ultils/helper'
-import useDebounce from '../hooks/useDebounce'
+import { apiGetProducts } from '../../apis'
+import { formatMoney } from '../../ultils/helper'
+import useDebounce from '../../hooks/useDebounce'
 import Swal from 'sweetalert2'
 
 const { AiOutlineDown } = icons
