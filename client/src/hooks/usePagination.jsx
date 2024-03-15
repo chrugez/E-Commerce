@@ -6,7 +6,7 @@ const { BsThreeDots } = icons
 
 const usePagination = (totalProductCount, currentPage, siblingCount = 1) => {
     const paginationArray = useMemo(() => {
-        const pageSize = import.meta.env.VITE_PRODUCT_LIMIT || 10
+        const pageSize = import.meta.env.VITE_LIMIT || 10
         const paginationCount = Math.ceil(totalProductCount / pageSize)
         const totalPaginationItem = siblingCount + 5
 

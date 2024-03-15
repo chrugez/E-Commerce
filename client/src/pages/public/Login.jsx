@@ -158,6 +158,7 @@ const Login = () => {
                             nameKey='firstName'
                             invalidFields={invalidFields}
                             setInvalidFields={setInvalidFields}
+                            style='w-full'
                         />
                         <InputField
                             value={payload.lastName}
@@ -165,6 +166,7 @@ const Login = () => {
                             nameKey='lastName'
                             invalidFields={invalidFields}
                             setInvalidFields={setInvalidFields}
+                            style='w-full'
                         />
                         <InputField
                             value={payload.mobile}
@@ -172,6 +174,7 @@ const Login = () => {
                             nameKey='mobile'
                             invalidFields={invalidFields}
                             setInvalidFields={setInvalidFields}
+                            style='w-full'
                         />
                     </div>}
                     <InputField
@@ -180,6 +183,7 @@ const Login = () => {
                         nameKey='email'
                         invalidFields={invalidFields}
                         setInvalidFields={setInvalidFields}
+                        style='w-full'
                     />
                     <InputField
                         value={payload.password}
@@ -188,6 +192,7 @@ const Login = () => {
                         type='password'
                         invalidFields={invalidFields}
                         setInvalidFields={setInvalidFields}
+                        style='w-full'
                     />
                     <Button
                         name={isRegister ? 'Register' : 'Login'}

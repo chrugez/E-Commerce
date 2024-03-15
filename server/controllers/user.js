@@ -234,20 +234,85 @@ const resetPassword = asyncHandler(async (req, res) => {
 })
 
 const getUsers = asyncHandler(async (req, res) => {
-    const response = await User.find().select('-refreshToken -password -role')
-    return res.status(200).json({
-        success: response ? true : false,
-        users: response
-    })
+    // const response = await User.find().select('-refreshToken -password -role')
+    // return res.status(200).json({
+    //     success: response ? true : false,
+    //     users: response
+    // })
+    const queries = { ...req.query }
+    //tách các trường đặc biệt ra khỏi query
+    const excludeFields = ['limit', 'sort', 'page', 'fields']
+    excludeFields.forEach(el => delete queries[el])
+
+    //format lại các operators cho đúng cú pháp của mongoose
+    let queryString = JSON.stringify(queries)
+    queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, matchEl => `$${matchEl}`)
+    const formatedQueries = JSON.parse(queryString)
+
+    //filtering
+    if (queries?.name) formatedQueries.name = { $regex: queries.name, $options: 'i' }
+    if (req.query.q) {
+        delete formatedQueries.q
+        formatedQueries['$or'] = [
+            { firstName: { $regex: req.query.q, $options: 'i' } },
+            { lastName: { $regex: req.query.q, $options: 'i' } },
+            { email: { $regex: req.query.q, $options: 'i' } },
+        ]
+    }
+    let queryCommand = User.find(formatedQueries)
+
+    //sorting
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ')
+        queryCommand = queryCommand.sort(sortBy)
+    }
+
+    //fields limiting
+    if (req.query.fields) {
+        const fields = req.query.fields.split(',').join(' ')
+        queryCommand = queryCommand.select(fields)
+    }
+
+    //pagination
+    //limit: số object lấy về 1 lần gọi API
+    //skip: Bỏ qua bao nhiêu object rồi lấy tiếp (tính từ object đầu tiên)
+    const page = +req.query.page || 1
+    const limit = +req.query.limit || process.env.LIMIT_PRODUCTS
+    const skip = (page - 1) * limit
+    queryCommand.skip(skip).limit(limit)
+
+    //execute query
+    //số lượng sản phẩn thỏa mãn điều kiện !== số lượng sản phẩm trả về 1 lần gọi API
+    //[Mongoose mới không hỗ trợ callback]
+    // queryCommand.exec(async (err, response) => {
+    //     if (err) throw new Error(err.message)
+    //     const counts = await Product.find(formatedQueries).countDocuments()
+    //     return res.status(200).json({
+    //         success: response ? true : false,
+    //         counts,
+    //         products: response ? response : 'Cannot get products!',
+    //     })
+    // })
+    queryCommand
+        .exec()
+        .then(async (response) => {
+            const counts = await User.find(formatedQueries).countDocuments()
+            return res.status(200).json({
+                success: response ? true : false,
+                users: response ? response : 'Cannot find any user!',
+                counts,
+            })
+        }).catch((error) => {
+            throw new Error(error.message)
+        })
 })
 
 const deleteUser = asyncHandler(async (req, res) => {
-    const { _id } = req.query
-    if (!_id) throw new Error('Missing inputs!')
-    const response = await User.findByIdAndDelete(_id)
+    const { uid } = req.params
+    const response = await User.findByIdAndDelete(uid)
     return res.status(200).json({
         success: response ? true : false,
-        deletedUser: response ? `User with email ${response.email} deleted` : 'No user delete'
+        mes: response ? `User with email ${response.email} deleted` : 'No user delete'
     })
 })
 
@@ -267,7 +332,7 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
     const response = await User.findByIdAndUpdate(uid, req.body, { new: true }).select('-password -role -refreshToken')
     return res.status(200).json({
         success: response ? true : false,
-        updatedUser: response ? response : 'Something went wrong!'
+        mes: response ? 'Updated' : 'Something went wrong!'
     })
 })
 

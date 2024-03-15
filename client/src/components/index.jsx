@@ -28,6 +28,9 @@ export { default as PaginItem } from './pagination/PaginItem'
 export { default as Pagination } from './pagination/Pagination'
 export { default as Loading } from './common/Loading'
 export { default as AdminSidebar } from './sidebar/AdminSidebar'
+export { default as InputForm } from './input/InputForm'
+export { default as FormUser } from './form/FormUser'
+export { default as Select } from './form/Select'
 
 
 

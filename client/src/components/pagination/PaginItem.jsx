@@ -1,23 +1,21 @@
 import React, { memo, useEffect } from 'react'
 import icons from '../../ultils/icons'
 import clsx from 'clsx'
-import { useSearchParams, useNavigate, useParams, createSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate, createSearchParams, useLocation } from 'react-router-dom'
 
 const { BsThreeDots } = icons
 
 const PaginItem = ({ children }) => {
     const [params] = useSearchParams()
     const navigate = useNavigate()
-    const { category } = useParams()
+    const location = useLocation()
 
     const handlePagination = () => {
-        let param = []
-        for (let i of params.entries()) param.push(i)
-        const queries = {}
-        for (let i of param) queries[i[0]] = [1]
+        const queries = Object.fromEntries([...params])
+        console.log(queries)
         if (Number(children)) queries.page = children
         navigate({
-            pathname: `/${category}`,
+            pathname: location.pathname,
             search: createSearchParams(queries).toString()
         })
     }
