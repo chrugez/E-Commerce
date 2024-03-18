@@ -1,9 +1,10 @@
 import React, { memo } from 'react'
+import clsx from 'clsx'
 
-const InputForm = ({ label, disable, register, errors, id, validate, type = 'text', placeholder, defaultValue }) => {
+const InputForm = ({ label, disable, register, errors, id, validate, type = 'text', placeholder, defaultValue, style, f1 }) => {
     return (
-        <div className='flex flex-col h-[80px]'>
-            {label && <label htmlFor={id} className='capitalize'>{label}</label>}
+        <div className={clsx('flex flex-col h-[80px]', style)}>
+            {label && <label htmlFor={id} className={f1 ? 'capitalize text-black' : 'capitalize text-white'}>{label}</label>}
             <input
                 id={id}
                 {...register(id, validate)}

@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react'
 import { adminSidebar } from '../../ultils/constants'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import clsx from 'clsx'
 import icons from '../../ultils/icons'
 
@@ -18,13 +18,13 @@ const AdminSidebar = () => {
     }
     return (
         <div className='py-4 bg-zinc-700 h-full'>
-            <div className='flex flex-col justify-center p-4 items-center'>
+            <Link to={`/`} className='flex flex-col justify-center p-4 items-center'>
                 <span>
                     <span className='text-[48px] text-main'>HQC</span>
                     <span className='text-[32px] '>Store</span>
                 </span>
                 <small>Admin Workspace</small>
-            </div>
+            </Link>
             <div>
                 {adminSidebar.map(el => (
                     <div key={el.id}>

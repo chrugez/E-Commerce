@@ -5,6 +5,7 @@ import { BreadCrumbs, Button, SelectQuantity, ProductInformation, CustomSlider }
 import Slider from "react-slick"
 import ReactImageMagnify from 'react-image-magnify'
 import { formatMoney, formatPrice, renderStarFromNumber } from '../../ultils/helper'
+import DOMPurify from 'dompurify'
 
 const settings = {
   dots: false,
@@ -120,9 +121,10 @@ const DetailProduct = () => {
             ))}
           </div>
           <ul className='text-gray-600 list-disc text-sm pl-4'>
-            {product?.description?.map((el, index) => (
+            {product?.description?.length > 1 && product?.description?.map((el, index) => (
               <li key={index} className='leading-6'>{el}</li>
             ))}
+            {product?.description?.length === 1 && <div className='text-sm' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product?.description[0]) }}></div>}
           </ul>
           <div className='flex items-center gap-4'>
             <span className='font-semibold'>Remain:</span>

@@ -44,6 +44,7 @@ const FormUser = ({ editEl, reRender }) => {
                             message: "Invalid email!"
                         }
                     }}
+                    f1
                 />
                 <InputForm
                     register={register}
@@ -58,6 +59,7 @@ const FormUser = ({ editEl, reRender }) => {
                         //     message: "Invalid email!"
                         // }
                     }}
+                    f1
                 />
                 <InputForm
                     register={register}
@@ -72,6 +74,7 @@ const FormUser = ({ editEl, reRender }) => {
                         //     message: "Invalid email!"
                         // }
                     }}
+                    f1
                 />
                 <InputForm
                     register={register}
@@ -86,6 +89,7 @@ const FormUser = ({ editEl, reRender }) => {
                             message: "Invalid mobile number!"
                         }
                     }}
+                    f1
                 />
                 <Select
                     register={register}
@@ -101,6 +105,7 @@ const FormUser = ({ editEl, reRender }) => {
                         //     message: "Invalid email!"
                         // }
                     }}
+                    f1
                 />
                 {/* <div className='flex items-center gap-2'>
                 <label htmlFor="email">email</label>

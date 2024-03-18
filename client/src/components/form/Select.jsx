@@ -1,9 +1,10 @@
 import React, { memo } from 'react'
+import clsx from 'clsx'
 
-const Select = ({ label, options = [], register, errors, id, validate, style, fullWidth, defaultValue }) => {
+const Select = ({ label, options = [], register, errors, id, validate, style, fullWidth, defaultValue, f1 }) => {
     return (
-        <div className='flex flex-col'>
-            {label && <label htmlFor={id} className='capitalize'>{label}</label>}
+        <div className={clsx('flex flex-col', style)}>
+            {label && <label htmlFor={id} className={f1 ? 'capitalize text-black' : 'capitalize text-white'}>{label}</label>}
             <select
                 id={id}
                 {...register(id, validate)}

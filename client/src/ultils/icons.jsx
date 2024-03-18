@@ -6,6 +6,7 @@ import { FiMenu, FiLogOut } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
 import { AiOutlineDown } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
+import { ImBin } from "react-icons/im";
 
 const icons = {
     FaPhoneAlt,
@@ -27,7 +28,8 @@ const icons = {
     FaHome,
     FaUser,
     FaProductHunt,
-    FaClipboardList
+    FaClipboardList,
+    ImBin
 }
 
 export default icons

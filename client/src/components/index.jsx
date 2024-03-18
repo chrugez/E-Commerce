@@ -31,6 +31,8 @@ export { default as AdminSidebar } from './sidebar/AdminSidebar'
 export { default as InputForm } from './input/InputForm'
 export { default as FormUser } from './form/FormUser'
 export { default as Select } from './form/Select'
+export { default as FormCreateProduct } from './form/FormCreateProduct'
+export { default as MarkdownEditor } from './input/MarkdownEditor'
 
 
 
