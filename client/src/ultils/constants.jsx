@@ -205,3 +205,16 @@ export const adminSidebar = [
         icon: <FaClipboardList />
     },
 ]
+
+export const option = [
+    {
+        id: 1,
+        code: true,
+        value: 'Blocked'
+    },
+    {
+        id: 2,
+        code: false,
+        value: 'Active'
+    },
+]

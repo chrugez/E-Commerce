@@ -2,8 +2,8 @@ import React, { memo } from 'react'
 
 const InputForm = ({ label, disable, register, errors, id, validate, type = 'text', placeholder, defaultValue }) => {
     return (
-        <div className='flex flex-col h-[80px] gap-2'>
-            {label && <label htmlFor={id}>{label}</label>}
+        <div className='flex flex-col h-[80px]'>
+            {label && <label htmlFor={id} className='capitalize'>{label}</label>}
             <input
                 id={id}
                 {...register(id, validate)}

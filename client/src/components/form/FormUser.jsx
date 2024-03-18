@@ -1,10 +1,11 @@
 import React, { memo } from 'react'
 import { useForm } from "react-hook-form";
-import { InputForm } from '..'
+import { InputForm, Select } from '..'
 import { showModal } from '../../store/app/appSlice'
 import { useDispatch } from 'react-redux';
 import { apiUpdateUser } from '../../apis';
 import { toast } from 'react-toastify'
+import { option } from '../../ultils/constants'
 
 const FormUser = ({ editEl, reRender }) => {
     const dispatch = useDispatch()
@@ -14,7 +15,7 @@ const FormUser = ({ editEl, reRender }) => {
         lastName: '',
         role: '',
         mobile: '',
-        status: ''
+        isBlocked: ''
     });
     const onSubmit = async (data) => {
         const response = await apiUpdateUser(data, editEl._id)
@@ -25,7 +26,6 @@ const FormUser = ({ editEl, reRender }) => {
             toast.success(response.mes)
         } else toast.error(response.mes)
     };
-    console.log(editEl)
     return (
         <div
             onClick={e => e.stopPropagation()}
@@ -85,6 +85,21 @@ const FormUser = ({ editEl, reRender }) => {
                             value: /^(\+\d{1,3}[- ]?)?\d{10}$/,
                             message: "Invalid mobile number!"
                         }
+                    }}
+                />
+                <Select
+                    register={register}
+                    errors={errors}
+                    id={'isBlocked'}
+                    label={'status'}
+                    defaultValue={editEl?.isBlocked ? 'Blocked' : 'Active'}
+                    options={option}
+                    validate={{
+                        required: 'Required',
+                        // pattern: {
+                        //     value: /\S+@\S+\.\S+/,
+                        //     message: "Invalid email!"
+                        // }
                     }}
                 />
                 {/* <div className='flex items-center gap-2'>

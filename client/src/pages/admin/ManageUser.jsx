@@ -55,7 +55,6 @@ const ManageUser = () => {
         setIsEdit(!isEdit)
     }, [isEdit])
 
-    console.log(editEl)
 
     return (
         <div className='w-full'>
