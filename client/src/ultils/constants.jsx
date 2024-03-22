@@ -177,14 +177,14 @@ export const adminSidebar = [
     {
         id: 2,
         type: 'single',
-        text: 'Manage User',
+        text: 'User',
         path: `/${path.ADMIN}/${path.MANAGE_USER}`,
         icon: <FaUser />
     },
     {
         id: 3,
         type: 'parent',
-        text: 'Manage Product',
+        text: 'Product',
         submenu: [
             {
                 text: 'Create Product',
@@ -200,7 +200,7 @@ export const adminSidebar = [
     {
         id: 4,
         type: 'single',
-        text: 'Manage Order',
+        text: 'Order',
         path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
         icon: <FaClipboardList />
     },

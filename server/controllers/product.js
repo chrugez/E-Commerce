@@ -1,4 +1,4 @@
-const { response } = require('express')
+const { response, request } = require('express')
 const Product = require('../models/product')
 const asyncHandler = require('express-async-handler')
 const slugify = require('slugify')
@@ -13,9 +13,8 @@ const createProduct = asyncHandler(async (req, res) => {
     if (images) req.body.images = images
     const newProduct = await Product.create(req.body)
     return res.status(200).json({
-        // success: newProduct ? true : false,
-        // createdProduct: newProduct ? newProduct : 'Cannot create new product!'
-        thumb, images
+        success: newProduct ? true : false,
+        mes: newProduct ? 'Created' : 'Cannot create new product!'
     })
 })
 
@@ -55,8 +54,21 @@ const getProducts = asyncHandler(async (req, res) => {
         const colorQuery = colorArr.map(el => ({ color: { $regex: el, $options: 'i' } }))
         colorQueryObject = { $or: colorQuery }
     }
-    const q = { ...colorQueryObject, ...formatedQueries }
-    let queryCommand = Product.find(q)
+    let queryObject = {}
+    if (queries.q) {
+        delete formatedQueries.q
+        queryObject = {
+            $or: [
+                { title: { $regex: queries.q, $options: 'i' } },
+                { category: { $regex: queries.q, $options: 'i' } },
+                { brand: { $regex: queries.q, $options: 'i' } },
+
+            ]
+        }
+    }
+
+    const qr = { ...colorQueryObject, ...formatedQueries, ...queryObject }
+    let queryCommand = Product.find(qr)
 
     //sorting
     if (req.query.sort) {
@@ -93,7 +105,7 @@ const getProducts = asyncHandler(async (req, res) => {
     queryCommand
         .exec()
         .then(async (response) => {
-            const counts = await Product.find(q).countDocuments()
+            const counts = await Product.find(qr).countDocuments()
             return res.status(200).json({
                 success: response ? true : false,
                 products: response ? response : 'Cannot find any product!',
@@ -106,11 +118,14 @@ const getProducts = asyncHandler(async (req, res) => {
 
 const updateProduct = asyncHandler(async (req, res) => {
     const { pid } = req.params
+    const files = req?.files
+    if (files?.thumb) req.body.thumb = files?.thumb[0].path
+    if (files?.images) req.body.images = files?.images?.map(el => el.path)
     if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
     const updatedProduct = await Product.findByIdAndUpdate(pid, req.body, { new: true })
     return res.status(200).json({
         success: updatedProduct ? true : false,
-        updatedProduct: updatedProduct ? updatedProduct : 'Cannot update product!'
+        mes: updatedProduct ? 'Updated' : 'Cannot update product!'
     })
 })
 
@@ -119,7 +134,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
     const deletedProduct = await Product.findByIdAndDelete(pid)
     return res.status(200).json({
         success: deletedProduct ? true : false,
-        deletedProduct: deletedProduct ? deletedProduct : 'Cannot delete product!'
+        mes: deletedProduct ? 'Deleted' : 'Cannot delete product!'
     })
 })
 

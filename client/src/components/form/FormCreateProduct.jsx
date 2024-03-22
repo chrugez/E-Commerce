@@ -1,12 +1,14 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { InputForm, Select, MarkdownEditor } from '../'
+import { InputForm, Select, MarkdownEditor, Loading } from '../'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { getBase64, validate } from '../../ultils/helper'
 import { toast } from 'react-toastify'
 import { apiCreateProduct } from '../../apis'
+import { showModal } from '../../store/app/appSlice'
 
 const FormCreateProduct = () => {
+    const dispatch = useDispatch()
     const { categories } = useSelector(state => state.app)
     const [payload, setPayload] = useState({
         description: ''
@@ -35,8 +37,17 @@ const FormCreateProduct = () => {
             if (finalPayload.images) {
                 for (let image of finalPayload.images) formData.append('images', image)
             }
+            dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }))
             const response = await apiCreateProduct(formData)
-            console.log(response)
+            dispatch(showModal({ isShowModal: false, modalChildren: null }))
+            if (response.success) {
+                toast.success(response.mes)
+                reset()
+                setPreview({
+                    thumb: '',
+                    images: []
+                })
+            } else toast.error(response.mes)
         }
     }
 
@@ -66,7 +77,6 @@ const FormCreateProduct = () => {
         handlePreviewImages(watch('images'))
     }, [watch('images')])
 
-    console.log(preview)
     return (
         <div>
             <form onSubmit={handleSubmit(handleCreateProduct)}>

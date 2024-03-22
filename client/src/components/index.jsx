@@ -32,6 +32,7 @@ export { default as InputForm } from './input/InputForm'
 export { default as FormUser } from './form/FormUser'
 export { default as Select } from './form/Select'
 export { default as FormCreateProduct } from './form/FormCreateProduct'
+export { default as FormUpdateProduct } from './form/FormUpdateProduct'
 export { default as MarkdownEditor } from './input/MarkdownEditor'
 
 

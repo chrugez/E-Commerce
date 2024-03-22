@@ -40,6 +40,7 @@ const ManageUser = () => {
                 title: "Do you want to delete this user?",
                 showCancelButton: true,
                 confirmButtonText: "Delete",
+                icon: 'question'
             }).then(async (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
@@ -81,7 +82,7 @@ const ManageUser = () => {
                         isHideLabel
                     />
                 </div>
-                <table className='table-auto mb-6 text-left w-full'>
+                <table className='table-auto mb-6 text-center w-full'>
                     <thead className='font-bold bg-white text-black'>
                         <tr className='border border-white'>
                             <th className='px-4 py-2'>#</th>

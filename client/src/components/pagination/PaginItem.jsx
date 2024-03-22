@@ -12,7 +12,6 @@ const PaginItem = ({ children }) => {
 
     const handlePagination = () => {
         const queries = Object.fromEntries([...params])
-        console.log(queries)
         if (Number(children)) queries.page = children
         navigate({
             pathname: location.pathname,

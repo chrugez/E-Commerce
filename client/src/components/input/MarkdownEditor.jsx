@@ -30,7 +30,9 @@ const MarkdownEditor = ({ label, value, changeValue, name, invalidField, setInva
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}
                 onChange={e => changeValue(prev => ({ ...prev, [name]: e.target.getContent() }))}
-                onFocus={() => setInvalidField && setInvalidField([])}
+                onFocus={() => {
+                    setInvalidField && setInvalidField([])
+                }}
             />
             {invalidField?.some(el => el.name === name) &&
                 <span className='text-main text-xs'>
