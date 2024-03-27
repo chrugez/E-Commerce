@@ -1,13 +1,26 @@
 import icons from '../../ultils/icons'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import path from '../../ultils/path'
-import { memo } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 const { FaPhoneAlt, MdEmail, FaShoppingCart, FaUserCircle } = icons
 
 const Header = () => {
   const { current } = useSelector(state => state.user)
+  const dispatch = useDispatch()
+  const [option, setOption] = useState(false)
+
+  useEffect(() => {
+    const handleClickOut = (e) => {
+      const profile = document.getElementById('profile')
+      if (!profile.contains(e.target)) setOption(false)
+    }
+    document.addEventListener('click', handleClickOut)
+    return () => {
+      document.removeEventListener('click', handleClickOut)
+    }
+  }, [])
   return (
     <div className="w-main flex justify-between h-[110px] py-[35px]">
       <Link to={`${path.HOME}`}>
@@ -39,14 +52,21 @@ const Header = () => {
             <FaShoppingCart color='red' />
             <span className=''>0 item(s)</span>
           </div>
-          <Link
-            to={current?.role === 0 ? `/${path.ADMIN}/${path.DASHBOARD}` : `/${path.MEMBER}/${path.PERSONAL}`
+          <div
+            className='flex justify-center items-center px-4 gap-2 cursor-pointer relative'
+            onClick={() => setOption(pre => !pre)
             }
-            className='flex justify-center items-center px-4 gap-2 cursor-pointer'
+            id='profile'
           >
             <FaUserCircle size={24} color='red' />
             <span className=''>Profile</span>
-          </Link>
+            {option && <div onClick={e => e.stopPropagation()} className='absolute top-full flex flex-col left-0 border py-2 min-w-[200px] bg-gray-100'>
+              <Link className='p-2 w-full hover:bg-red-100' to={`/${path.MEMBER}/${path.PERSONAL}`}>Personal</Link>
+              {+current.role === 0 &&
+                <Link className='p-2 w-full hover:bg-red-100' to={`/${path.ADMIN}/${path.DASHBOARD}`}>Dashboard</Link>}
+              <span onClick={() => dispatch(logout())} className='p-2 w-full hover:bg-red-100'>Logout</span>
+            </div>}
+          </div>
         </>}
       </div>
     </div>
@@ -54,3 +74,4 @@ const Header = () => {
 }
 
 export default memo(Header)
+

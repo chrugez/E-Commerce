@@ -36,6 +36,7 @@ export { default as FormCreateProduct } from './form/FormCreateProduct'
 export { default as FormUpdateProduct } from './form/FormUpdateProduct'
 export { default as FormCustomVariant } from './form/FormCustomVariant'
 export { default as MarkdownEditor } from './input/MarkdownEditor'
+export { default as MemberSidebar } from './sidebar/MemberSidebar'
 
 
 

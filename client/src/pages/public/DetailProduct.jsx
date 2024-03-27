@@ -58,7 +58,6 @@ const DetailProduct = () => {
     }
     window.scrollTo(0, 0)
   }, [pid])
-  console.log(currentProduct)
 
   useEffect(() => {
     if (pid) fetchProductData()
@@ -112,11 +111,11 @@ const DetailProduct = () => {
                 height: 1200
               }
             }} /> */}
-            <img src={currentProduct?.thumb || currentImage} alt="thumb" className='w-[500px] h-[458px] border overflow-hidden' />
+            <img src={currentImage || currentProduct?.thumb} alt="thumb" className='w-[500px] h-[458px] border overflow-hidden' />
           </div>
           <div className='w-[550px]'>
             <Slider className='image-slider' {...settings}>
-              {currentProduct?.images?.length === 0 && product?.images?.map(el => (
+              {product?.images?.map(el => (
                 <div key={el} className='px-2'>
                   <img
                     src={el}
@@ -126,7 +125,7 @@ const DetailProduct = () => {
                   />
                 </div>
               ))}
-              {currentProduct?.images?.length > 0 && currentProduct?.images?.map(el => (
+              {/* {currentProduct?.images?.length > 0 && currentProduct?.images?.map(el => (
                 <div key={el} className='px-2'>
                   <img
                     src={el}
@@ -135,13 +134,13 @@ const DetailProduct = () => {
                     onClick={e => handleClickImage(e, el)}
                   />
                 </div>
-              ))}
+              ))} */}
             </Slider>
           </div>
         </div>
         <div className='w-2/5 flex flex-col gap-4 pl-4 '>
           <div className='flex justify-between items-center'>
-            <h2 className='text-[30px] font-semibold'>{`${formatMoney(currentProduct?.price || product?.price)} VND`}</h2>
+            <h2 className='text-[30px] font-semibold'>{`${formatMoney(variant ? currentProduct?.price : product?.price)} VND`}</h2>
             <span className='pr-10 text-gray-500 text-sm'>{`Sold: ${product?.sold}`}</span>
           </div>
           <div className='flex items-center'>

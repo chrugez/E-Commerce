@@ -206,6 +206,37 @@ export const adminSidebar = [
     },
 ]
 
+export const memberSidebar = [
+    {
+        id: 1,
+        type: 'single',
+        text: 'Personal',
+        path: `/${path.MEMBER}/${path.PERSONAL}`,
+        icon: <FaHome />
+    },
+    {
+        id: 2,
+        type: 'single',
+        text: 'My Cart',
+        path: `/${path.MEMBER}/${path.MYCART}`,
+        icon: <FaUser />
+    },
+    {
+        id: 3,
+        type: 'single',
+        text: 'History',
+        path: `/${path.MEMBER}/${path.HISTORY}`,
+        icon: <FaProductHunt />
+    },
+    {
+        id: 4,
+        type: 'single',
+        text: 'Wishlist',
+        path: `/${path.MEMBER}/${path.WISHLIST}`,
+        icon: <FaClipboardList />
+    },
+]
+
 export const option = [
     {
         id: 1,

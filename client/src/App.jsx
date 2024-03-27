@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { Home, Login, Public, FAQ, Services, Blog, DetailProduct, Products, FinalRegister, ResetPassword } from './pages/public'
 import { AdminLayout, CreateProduct, Dashboard, ManageOrder, ManageProduct, ManageUser } from './pages/admin'
-import { MemberLayout, Personal } from './pages/member'
+import { MemberLayout, MyCart, Personal, History, WishList } from './pages/member'
 import path from './ultils/path'
 import { getCategories } from './store/app/asyncActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -38,6 +38,9 @@ function App() {
         </Route>
         <Route path={path.MEMBER} element={<MemberLayout />}>
           <Route path={path.PERSONAL} element={<Personal />} />
+          <Route path={path.MYCART} element={<MyCart />} />
+          <Route path={path.HISTORY} element={<History />} />
+          <Route path={path.WISHLIST} element={<WishList />} />
         </Route>
         <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
         <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
