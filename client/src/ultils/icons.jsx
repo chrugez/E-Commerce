@@ -2,9 +2,9 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { FaShoppingCart, FaUserCircle, FaEye, FaHeart, FaCaretDown, FaCaretUp, FaHome, FaUser, FaProductHunt, FaClipboardList } from "react-icons/fa";
 import { MdStar, MdStarOutline } from "react-icons/md";
-import { FiMenu, FiLogOut } from "react-icons/fi";
+import { FiMenu, FiLogOut, FiEdit } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
-import { AiOutlineDown } from "react-icons/ai";
+import { AiOutlineDown, AiOutlineAppstoreAdd } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { ImBin } from "react-icons/im";
 
@@ -29,7 +29,9 @@ const icons = {
     FaUser,
     FaProductHunt,
     FaClipboardList,
-    ImBin
+    ImBin,
+    FiEdit,
+    AiOutlineAppstoreAdd
 }
 
 export default icons

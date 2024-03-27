@@ -13,7 +13,7 @@ const AdminLayout = () => {
                 <AdminSidebar />
             </div>
             <div className='w-[300px] flex-none'></div>
-            <div className='flex-auto'>
+            <div className='flex-auto '>
                 <Outlet />
             </div>
         </div>

@@ -8,6 +8,9 @@ import { useDispatch } from 'react-redux'
 import { showModal } from '../../store/app/appSlice'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
+import icons from '../../ultils/icons'
+
+const { FiEdit, ImBin } = icons
 
 const ManageUser = () => {
     const [data, setData] = useState(null)
@@ -106,21 +109,27 @@ const ManageUser = () => {
                                 <td className='px-4 py-2 border-r'>{el.isBlocked ? 'Blocked' : 'Active'}</td>
                                 <td className='px-4 py-2 border-r'>{moment(el.createdAt).format("DD/MM/YYYY")}</td>
                                 <td className='px-4 py-2'>
-                                    <span onClick={() => {
-                                        setIsEdit(true)
-                                        setEditEl(el)
+                                    <div className='flex items-center justify-center'>
+                                        <span onClick={() => {
+                                            setIsEdit(true)
+                                            setEditEl(el)
 
-                                        // dispatch(showModal({
-                                        //     isShowModal: true,
-                                        //     modalChildren: <FormUser
-                                        //         editEl={editEl}
-                                        //         reRender={reRender}
-                                        //     />
-                                        // }))
-                                    }} className='px-2 hover:text-blue-600 hover:underline cursor-pointer'>Edit</span>
-                                    <span
-                                        onClick={() => handleDelete(el)}
-                                        className='px-2 hover:text-main hover:underline cursor-pointer'>Delete</span>
+                                            // dispatch(showModal({
+                                            //     isShowModal: true,
+                                            //     modalChildren: <FormUser
+                                            //         editEl={editEl}
+                                            //         reRender={reRender}
+                                            //     />
+                                            // }))
+                                        }} className='px-2 hover:text-blue-600 hover:underline cursor-pointer'>
+                                            <FiEdit />
+                                        </span>
+                                        <span
+                                            onClick={() => handleDelete(el)}
+                                            className='px-2 hover:text-main hover:underline cursor-pointer'>
+                                            <ImBin />
+                                        </span>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

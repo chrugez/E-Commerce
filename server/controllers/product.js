@@ -2,6 +2,7 @@ const { response, request } = require('express')
 const Product = require('../models/product')
 const asyncHandler = require('express-async-handler')
 const slugify = require('slugify')
+const makeSku = require('uniqid')
 
 const createProduct = asyncHandler(async (req, res) => {
     const { title, price, description, brand, category, color } = req.body
@@ -172,10 +173,23 @@ const ratings = asyncHandler(async (req, res) => {
 const uploadImagesProduct = asyncHandler(async (req, res) => {
     const { pid } = req.params
     if (!req.files) throw new Error('Missing inputs!')
-    const response = await Product.findByIdAndUpdate(pid, { $push: { images: { $each: req.files.map(el => el.path) } } })
+    const response = await Product.findByIdAndUpdate(pid, { $push: { images: { $each: req.files.map(el => el.path) } } }, { new: true })
     return res.status(200).json({
         status: response ? true : false,
         updatedProduct: response ? response : 'Cannot upload images product'
+    })
+})
+
+const addVariant = asyncHandler(async (req, res) => {
+    const { pid } = req.params
+    const { title, price, color } = req.body
+    const thumb = req?.files?.thumb[0]?.path
+    const images = req.files?.images?.map(el => el.path)
+    if (!(title && price && color)) throw new Error('Missing inputs!')
+    const response = await Product.findByIdAndUpdate(pid, { $push: { variant: { color, price, title, thumb, images, sku: makeSku().toUpperCase() } } }, { new: true })
+    return res.status(200).json({
+        success: response ? true : false,
+        mes: response ? 'Added new variant!' : 'Cannot add variant product'
     })
 })
 
@@ -186,5 +200,6 @@ module.exports = {
     updateProduct,
     deleteProduct,
     ratings,
-    uploadImagesProduct
+    uploadImagesProduct,
+    addVariant
 }

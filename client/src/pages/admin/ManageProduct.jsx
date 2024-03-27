@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { InputForm, Pagination, FormUpdateProduct } from '../../components'
+import { InputForm, Pagination, FormUpdateProduct, FormCustomVariant } from '../../components'
 import { useForm } from 'react-hook-form'
 import { apiGetProducts, apiDeleteProduct } from '../../apis'
 import { formatMoney } from '../../ultils/helper'
@@ -8,6 +8,9 @@ import useDebounce from '../../hooks/useDebounce'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
+import icons from '../../ultils/icons'
+
+const { AiOutlineAppstoreAdd, ImBin, FiEdit } = icons
 
 const ManageProduct = () => {
 
@@ -15,6 +18,7 @@ const ManageProduct = () => {
     const [products, setProducts] = useState(null)
     const [counts, setCounts] = useState(0)
     const [editProduct, setEditProduct] = useState(null)
+    const [customVariant, setCustomVariant] = useState(null)
     const [update, setUpdate] = useState(false)
     const [params] = useSearchParams()
     const navigate = useNavigate()
@@ -68,6 +72,9 @@ const ManageProduct = () => {
             {editProduct && <div className='w-full absolute inset-0 z-10'>
                 <FormUpdateProduct editProduct={editProduct} render={render} setEditProduct={setEditProduct} />
             </div>}
+            {customVariant && <div className='w-full absolute inset-0 z-10'>
+                <FormCustomVariant customVariant={customVariant} render={render} setCustomVariant={setCustomVariant} />
+            </div>}
             <div className='p-4 border-b w-full flex justify-between items-center'>
                 <h1 className='text-3xl font-bold tracking-tight'>Manage Product</h1>
             </div>
@@ -93,6 +100,7 @@ const ManageProduct = () => {
                             <th className='px-4 py-2'>Category</th>
                             <th className='px-4 py-2'>Price(VND)</th>
                             <th className='px-4 py-2'>Quantity</th>
+                            <th className='px-4 py-2'>Variants</th>
                             <th className='px-4 py-2'>Color</th>
                             <th className='px-4 py-2'>Created At</th>
                             <th className='px-4 py-2'>Actions</th>
@@ -110,15 +118,27 @@ const ManageProduct = () => {
                                 <td className='px-4 py-2 border-r'>{el.category}</td>
                                 <td className='px-4 py-2 border-r'>{formatMoney(el.price)}</td>
                                 <td className='px-4 py-2 border-r'>{el.quantity}</td>
+                                <td className='px-4 py-2 border-r'>{el?.variant?.length || 0}</td>
                                 <td className='px-4 py-2 border-r'>{el.color}</td>
                                 <td className='px-4 py-2 border-r'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
                                 <td className='px-4 py-2 border-r'>
-                                    <span
-                                        onClick={() => setEditProduct(el)}
-                                        className='px-2 hover:text-blue-600 hover:underline cursor-pointer'>Edit</span>
-                                    <span
-                                        onClick={() => handleDelete(el._id)}
-                                        className='px-2 hover:text-main hover:underline cursor-pointer'>Delete</span>
+                                    <div className='flex items-center justify-center'>
+                                        <span
+                                            onClick={() => setEditProduct(el)}
+                                            className='px-2 hover:text-blue-600 hover:underline cursor-pointer'>
+                                            <FiEdit />
+                                        </span>
+                                        <span
+                                            onClick={() => setCustomVariant(el)}
+                                            className='px-2 hover:text-orange-500 hover:underline cursor-pointer'>
+                                            <AiOutlineAppstoreAdd />
+                                        </span>
+                                        <span
+                                            onClick={() => handleDelete(el._id)}
+                                            className='px-2 hover:text-main hover:underline cursor-pointer'>
+                                            <ImBin />
+                                        </span>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
