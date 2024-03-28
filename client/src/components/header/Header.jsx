@@ -14,7 +14,7 @@ const Header = () => {
   useEffect(() => {
     const handleClickOut = (e) => {
       const profile = document.getElementById('profile')
-      if (!profile.contains(e.target)) setOption(false)
+      if (!profile?.contains(e.target)) setOption(false)
     }
     document.addEventListener('click', handleClickOut)
     return () => {

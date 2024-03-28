@@ -164,7 +164,7 @@ export const voteOption = [
     },
 ]
 
-const { FaHome, FaUser, FaProductHunt, FaClipboardList } = icons
+const { FaHome, FaUser, FaProductHunt, FaClipboardList, FaShoppingCart, AiOutlineDashboard } = icons
 
 export const adminSidebar = [
     {
@@ -172,7 +172,7 @@ export const adminSidebar = [
         type: 'single',
         text: 'Dashboard',
         path: `/${path.ADMIN}/${path.DASHBOARD}`,
-        icon: <FaHome />
+        icon: <AiOutlineDashboard />
     },
     {
         id: 2,
@@ -204,6 +204,13 @@ export const adminSidebar = [
         path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
         icon: <FaClipboardList />
     },
+    {
+        id: 5,
+        type: 'single',
+        text: 'Back To Home',
+        path: `/`,
+        icon: <FaHome />
+    },
 ]
 
 export const memberSidebar = [
@@ -212,28 +219,35 @@ export const memberSidebar = [
         type: 'single',
         text: 'Personal',
         path: `/${path.MEMBER}/${path.PERSONAL}`,
-        icon: <FaHome />
+        icon: <FaUser />
     },
     {
         id: 2,
         type: 'single',
         text: 'My Cart',
         path: `/${path.MEMBER}/${path.MYCART}`,
-        icon: <FaUser />
+        icon: <FaShoppingCart />
     },
     {
         id: 3,
         type: 'single',
         text: 'History',
         path: `/${path.MEMBER}/${path.HISTORY}`,
-        icon: <FaProductHunt />
+        icon: <FaClipboardList />
     },
     {
         id: 4,
         type: 'single',
         text: 'Wishlist',
         path: `/${path.MEMBER}/${path.WISHLIST}`,
-        icon: <FaClipboardList />
+        icon: <FaProductHunt />
+    },
+    {
+        id: 5,
+        type: 'single',
+        text: 'Back To Home',
+        path: `/`,
+        icon: <FaHome />
     },
 ]
 

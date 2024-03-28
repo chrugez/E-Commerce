@@ -140,7 +140,7 @@ const DetailProduct = () => {
         </div>
         <div className='w-2/5 flex flex-col gap-4 pl-4 '>
           <div className='flex justify-between items-center'>
-            <h2 className='text-[30px] font-semibold'>{`${formatMoney(variant ? currentProduct?.price : product?.price)} VND`}</h2>
+            <h2 className='text-[30px] font-semibold'>{`${formatMoney(variant ? +currentProduct?.price : +product?.price)} VND`}</h2>
             <span className='pr-10 text-gray-500 text-sm'>{`Sold: ${product?.sold}`}</span>
           </div>
           <div className='flex items-center'>
@@ -160,10 +160,10 @@ const DetailProduct = () => {
               <div
                 onClick={() => setVariant(null)}
                 className={clsx('flex items-center border rounded-md border-gray-300 gap-2 cursor-pointer', !variant && 'bg-gray-300')}>
-                <img src={product?.thumb} alt="thumb" className='w-8 h-8 rounded-md object-cover' />
+                <img src={product?.thumb} alt="thumb" className='w-10 h-10 rounded-md object-cover' />
                 <span className='flex flex-col'>
                   <span className=''>{product?.color}</span>
-                  <span className='text-sm'>{formatMoney(product?.price)}</span>
+                  <span className='text-sm'>{formatMoney(+product?.price)}</span>
                 </span>
               </div>
               {product?.variant?.map(el => (
@@ -174,7 +174,7 @@ const DetailProduct = () => {
                   <img src={el?.thumb} alt="thumb" className='w-10 h-10 rounded-md object-cover' />
                   <span className='flex flex-col'>
                     <span className=''>{el?.color}</span>
-                    <span className='text-sm'>{formatMoney(el?.price)}</span>
+                    <span className='text-sm'>{formatMoney(+el?.price)}</span>
                   </span>
                 </div>
               ))}

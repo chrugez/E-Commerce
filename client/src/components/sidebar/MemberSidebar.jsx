@@ -1,10 +1,11 @@
 import React, { memo, useState } from 'react'
 import { memberSidebar } from '../../ultils/constants'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import icons from '../../ultils/icons'
 import { useSelector } from 'react-redux'
 import avatar from '../../assets/no-avatar.png'
+
 
 const { FaCaretDown, FaCaretUp } = icons
 
@@ -14,6 +15,7 @@ const notActiveStyle = 'px-4 py-2 flex items-center gap-2 hover:bg-gray-200'
 const MemberSidebar = () => {
     const [actived, setActived] = useState([])
     const { current } = useSelector(state => state.user)
+    const navigate = useNavigate()
 
     const handleShowTabs = (tabID) => {
         if (actived.some(el => el === tabID)) setActived(prev => prev.filter(el => el !== tabID))
@@ -22,8 +24,8 @@ const MemberSidebar = () => {
     return (
         <div className='py-4 bg-orange-400 w-[300px] h-full'>
             <div className='w-full flex flex-col justify-center p-4 items-center'>
-                <img src={current?.avatar || avatar} alt="avatar" className='w-16 h-16 object-cover rounded-full' />
-                <small>{`${current?.lastName} ${current?.firstName}`}</small>
+                <img src={current?.avatar || avatar} alt="avatar" className='w-20 h-20 object-cover rounded-full' />
+                <small className='mt-4'>{`${current?.lastName} ${current?.firstName}`}</small>
             </div>
             <div>
                 {memberSidebar.map(el => (

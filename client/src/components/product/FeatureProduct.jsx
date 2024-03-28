@@ -11,7 +11,7 @@ const FeatureProduct = () => {
     const [products, setProducts] = useState(null)
 
     const fetchProducts = async () => {
-        const response = await apiGetProducts({ limit: 9, totalRating: 5 })
+        const response = await apiGetProducts({ limit: 9, sort: '-totalRating' })
         if (response.success) setProducts(response.products)
     }
 
@@ -32,13 +32,12 @@ const FeatureProduct = () => {
                     />
                 ))}
             </div>
-            <div className='flex justify-between'>
-                <img src={Pbanner1} alt="banner" className='w-[50%] object-contain' />
-                <div className='flex flex-col justify-between gap-4 w-[24%]'>
-                    <img src={Pbanner2} alt="banner" />
-                    <img src={Pbanner3} alt="banner" />
-                </div>
-                <img src={Pbanner4} alt="banner" className='w-[24%] object-contain' />
+            <div className='grid grid-cols-4 grid-rows-2 gap-4'>
+                <img src={Pbanner1} alt="banner1" className='w-full h-full object-cover col-span-2 row-span-2' />
+                <img src={Pbanner2} alt="banner2" className='w-full h-full object-cover col-span-1 row-span-1' />
+                <img src={Pbanner4} alt="banner4" className='w-full h-full object-cover col-span-1 row-span-2' />
+                <img src={Pbanner3} alt="banner3" className='w-full h-full object-cover col-span-1 row-span-1' />
+
             </div>
         </div>
     )

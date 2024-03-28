@@ -4,7 +4,7 @@ import { FaShoppingCart, FaUserCircle, FaEye, FaHeart, FaCaretDown, FaCaretUp, F
 import { MdStar, MdStarOutline } from "react-icons/md";
 import { FiMenu, FiLogOut, FiEdit } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
-import { AiOutlineDown, AiOutlineAppstoreAdd } from "react-icons/ai";
+import { AiOutlineDown, AiOutlineAppstoreAdd, AiOutlineDashboard } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { ImBin } from "react-icons/im";
 
@@ -31,7 +31,8 @@ const icons = {
     FaClipboardList,
     ImBin,
     FiEdit,
-    AiOutlineAppstoreAdd
+    AiOutlineAppstoreAdd,
+    AiOutlineDashboard
 }
 
 export default icons

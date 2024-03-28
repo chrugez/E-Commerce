@@ -4,19 +4,27 @@ import label2 from '../../assets/new.png'
 import { renderStarFromNumber, formatMoney } from "../../ultils/helper"
 import { SelectOption } from '..'
 import icons from '../../ultils/icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import path from '../../ultils/path'
 
 const { FaEye, FiMenu, FaHeart } = icons
 
 const Product = ({ productData, isNew, normal }) => {
 
+    const navigate = useNavigate()
     const [isShowOption, setIsShowOption] = useState(false)
+
+    const handleClickOptions = (e, option) => {
+        e.stopPropagation()
+        if (option === 'MENU') navigate(`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`)
+        if (option === 'WISHLIST') console.log('WISHLIST')
+        if (option === 'VIEW') console.log('VIEW')
+    }
 
     return (
         <div className="w-full text-base px-2">
-            <Link
-                to={`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`}
+            <div
+                onClick={() => navigate(`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`)}
                 className="w-full border p-[15px] flex flex-col items-center"
                 onMouseEnter={e => {
                     e.stopPropagation()
@@ -29,9 +37,15 @@ const Product = ({ productData, isNew, normal }) => {
             >
                 <div className="w-full flex items-center justify-center relative">
                     {isShowOption && <div className='absolute bottom-0 left-0 right-0 flex justify-center gap-2 animate-slide-top'>
-                        <SelectOption icon={<FaHeart />} />
-                        <SelectOption icon={<FiMenu />} />
-                        <SelectOption icon={<FaEye />} />
+                        <span onClick={(e) => handleClickOptions(e, 'VIEW')}>
+                            <SelectOption icon={<FaHeart />} />
+                        </span>
+                        <span onClick={(e) => handleClickOptions(e, 'MENU')}>
+                            <SelectOption icon={<FiMenu />} />
+                        </span>
+                        <span onClick={(e) => handleClickOptions(e, 'WISHLIST')}>
+                            <SelectOption icon={<FaEye />} />
+                        </span>
                     </div>}
                     <img
                         src={productData?.thumb || 'https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png'}
@@ -47,7 +61,7 @@ const Product = ({ productData, isNew, normal }) => {
                     <span className="line-clamp-1">{productData?.title}</span>
                     <span>{`${formatMoney(productData?.price)} VND`}</span>
                 </div>
-            </Link>
+            </div>
         </div>
     )
 }
