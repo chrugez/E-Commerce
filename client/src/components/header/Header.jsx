@@ -50,7 +50,7 @@ const Header = () => {
         {current && <>
           <div className='flex items-center gap-2 px-4 border-r cursor-pointer'>
             <FaShoppingCart color='red' />
-            <span className=''>0 item(s)</span>
+            <span className=''>{`${current?.cart?.length || 0} ${current?.cart?.length > 1 ? 'items' : 'item'}`}</span>
           </div>
           <div
             className='flex justify-center items-center px-4 gap-2 cursor-pointer relative'

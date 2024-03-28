@@ -20,7 +20,7 @@ const Products = () => {
   const { category } = useParams()
   const [params] = useSearchParams()
   const fetchProductsByCategory = async (queries) => {
-    const response = await apiGetProducts(queries)
+    const response = await apiGetProducts({ ...queries, category })
     if (response.success) setProducts(response)
   }
   useEffect(() => {
@@ -102,7 +102,7 @@ const Products = () => {
       <div className=' my-4 flex justify-center'>
         <Pagination totalCount={products?.counts} />
       </div>
-      <div className='h-[500px] '></div>
+      {/* <div className='h-[500px] '></div> */}
     </div>
   )
 }

@@ -4,21 +4,47 @@ import label2 from '../../assets/new.png'
 import { renderStarFromNumber, formatMoney } from "../../ultils/helper"
 import { SelectOption } from '..'
 import icons from '../../ultils/icons'
-import { Link, useNavigate } from 'react-router-dom'
+import withBase from '../../hocs/withBase'
+import Swal from 'sweetalert2'
 import path from '../../ultils/path'
+import { apiUpdateCart } from '../../apis'
+import { toast } from 'react-toastify'
+import { getCurrent } from '../../store/user/asyncActions'
+import { useSelector } from 'react-redux'
 
-const { FaEye, FiMenu, FaHeart } = icons
+const { FaEye, FiMenu, FaHeart, FaShoppingCart, BsCartCheckFill } = icons
 
-const Product = ({ productData, isNew, normal }) => {
+const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
 
-    const navigate = useNavigate()
     const [isShowOption, setIsShowOption] = useState(false)
+    const { current } = useSelector(state => state.user)
 
-    const handleClickOptions = (e, option) => {
+    const handleClickOptions = async (e, option) => {
         e.stopPropagation()
-        if (option === 'MENU') navigate(`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`)
+        if (option === 'DETAIL') navigate(`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`)
         if (option === 'WISHLIST') console.log('WISHLIST')
-        if (option === 'VIEW') console.log('VIEW')
+        if (option === 'ADDCART') {
+            // console.log(productData)
+            if (!current) return Swal.fire({
+                title: "Oops!",
+                text: "You must login first!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Go Login"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate(`/${path.LOGIN}`)
+                }
+            })
+            const response = await apiUpdateCart({ pid: productData._id, color: productData.color })
+            if (response.success) {
+                toast.success(response.mes)
+                dispatch(getCurrent())
+            }
+            else toast.error(response.mes)
+        }
     }
 
     return (
@@ -37,14 +63,18 @@ const Product = ({ productData, isNew, normal }) => {
             >
                 <div className="w-full flex items-center justify-center relative">
                     {isShowOption && <div className='absolute bottom-0 left-0 right-0 flex justify-center gap-2 animate-slide-top'>
-                        <span onClick={(e) => handleClickOptions(e, 'VIEW')}>
-                            <SelectOption icon={<FaHeart />} />
-                        </span>
-                        <span onClick={(e) => handleClickOptions(e, 'MENU')}>
+                        {current?.cart?.some(el => el.product === productData._id.toString())
+                            ? <span title='Add Cart'>
+                                <SelectOption icon={<BsCartCheckFill color='green' />} />
+                            </span>
+                            : <span title='Add Cart' onClick={(e) => handleClickOptions(e, 'ADDCART')}>
+                                <SelectOption icon={<FaShoppingCart />} />
+                            </span>}
+                        <span title='Detail' onClick={(e) => handleClickOptions(e, 'DETAIL')}>
                             <SelectOption icon={<FiMenu />} />
                         </span>
-                        <span onClick={(e) => handleClickOptions(e, 'WISHLIST')}>
-                            <SelectOption icon={<FaEye />} />
+                        <span title='Add Wishlist' onClick={(e) => handleClickOptions(e, 'WISHLIST')}>
+                            <SelectOption icon={<FaHeart />} />
                         </span>
                     </div>}
                     <img
@@ -66,4 +96,4 @@ const Product = ({ productData, isNew, normal }) => {
     )
 }
 
-export default memo(Product)
+export default withBase(memo(Product))
