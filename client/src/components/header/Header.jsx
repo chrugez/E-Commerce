@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import path from '../../ultils/path'
 import { memo, useEffect, useState } from 'react'
+import withBase from '../../hocs/withBase'
+import { showCart } from '../../store/app/appSlice'
 
 const { FaPhoneAlt, MdEmail, FaShoppingCart, FaUserCircle } = icons
 
-const Header = () => {
+const Header = ({ dispatch, navigate }) => {
   const { current } = useSelector(state => state.user)
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const [option, setOption] = useState(false)
 
   useEffect(() => {
@@ -48,7 +50,12 @@ const Header = () => {
           </span>
         </div>
         {current && <>
-          <div className='flex items-center gap-2 px-4 border-r cursor-pointer'>
+          <div
+            onClick={() => {
+              // dispatch(showCart({ isShowCart: true }))
+              navigate(path.DETAILCART)
+            }}
+            className='flex items-center gap-2 px-4 border-r cursor-pointer'>
             <FaShoppingCart color='red' />
             <span className=''>{`${current?.cart?.length || 0} ${current?.cart?.length > 1 ? 'items' : 'item'}`}</span>
           </div>
@@ -73,5 +80,5 @@ const Header = () => {
   )
 }
 
-export default memo(Header)
+export default withBase(memo(Header))
 

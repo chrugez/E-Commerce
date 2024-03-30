@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {getNewProducts} from './asyncActions'
+import { getNewProducts } from './asyncActions'
 
 export const productSlice = createSlice({
     name: 'product',
     initialState: {
         newProducts: null,
-        errorMessage: ''
+        errorMessage: '',
+
     },
     reducers: {
 

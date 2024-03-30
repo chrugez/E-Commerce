@@ -28,6 +28,15 @@ export default {
         '7': '7 7 0%',
         '8': '8 8 0%',
       },
+      gridTemplateRows: {
+        //devide row
+        '8': 'repeat (8, minmax(0, 1fr))',
+        '10': 'repeat (10, minmax(0, 1fr))',
+
+        //Complex site-specific row configuration
+        'layout': '200px minmax(900px, 1fr) 100px'
+
+      },
       keyframes: {
         'slide-top': {
           '0%': {

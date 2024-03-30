@@ -38,7 +38,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
                     navigate(`/${path.LOGIN}`)
                 }
             })
-            const response = await apiUpdateCart({ pid: productData._id, color: productData.color })
+            const response = await apiUpdateCart({ pid: productData._id, color: productData.color, price: productData.price, thumbnail: productData.thumb })
             if (response.success) {
                 toast.success(response.mes)
                 dispatch(getCurrent())

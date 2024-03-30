@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { Home, Login, Public, FAQ, Services, Blog, DetailProduct, Products, FinalRegister, ResetPassword } from './pages/public'
+import { Home, Login, Public, FAQ, Services, Blog, DetailProduct, Products, FinalRegister, ResetPassword, DetailCart } from './pages/public'
 import { AdminLayout, CreateProduct, Dashboard, ManageOrder, ManageProduct, ManageUser } from './pages/admin'
 import { MemberLayout, MyCart, Personal, History, WishList } from './pages/member'
 import path from './ultils/path'
@@ -8,16 +8,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Modal } from './components'
+import { Cart, Modal } from './components'
 
 function App() {
   const dispatch = useDispatch()
-  const { isShowModal, modalChildren } = useSelector(state => state.app)
+  const { isShowModal, modalChildren, isShowCart } = useSelector(state => state.app)
   useEffect(() => {
     dispatch(getCategories())
   }, [])
   return (
     <div className='min-h-screen font-main relative'>
+      {/* {isShowCart && <div
+        onClick={() => dispatch(showCart({ isShowCart: false }))}
+        className='absolute inset-0 bg-overlay z-50 flex justify-end'>
+        <Cart />
+      </div>} */}
       {isShowModal && <Modal>{modalChildren}</Modal>}
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
@@ -25,6 +30,7 @@ function App() {
           <Route path={path.BLOGS} element={<Blog />} />
           <Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />} />
           <Route path={path.FAQ} element={<FAQ />} />
+          <Route path={path.DETAILCART} element={<DetailCart />} />
           <Route path={path.OUR_SERVICES} element={<Services />} />
           <Route path={path.PRODUCTS} element={<Products />} />
           <Route path={path.ALL} element={<Home />} />

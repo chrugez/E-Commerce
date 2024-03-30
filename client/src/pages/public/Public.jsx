@@ -3,7 +3,7 @@ import { Header, Navigation, TopHeader, Footer, ScrollToTop } from "../../compon
 
 const Public = () => {
     return (
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex min-h-screen flex-col items-center">
             <ScrollToTop />
             <TopHeader />
             <Header />

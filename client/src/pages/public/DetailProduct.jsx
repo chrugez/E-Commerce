@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
-import { apiGetProduct, apiGetProducts } from '../../apis/product'
+import { createSearchParams, useParams } from 'react-router-dom'
+import { apiGetProduct, apiGetProducts, apiUpdateCart } from '../../apis'
 import { BreadCrumbs, Button, SelectQuantity, ProductInformation, CustomSlider } from '../../components'
 import Slider from "react-slick"
 import ReactImageMagnify from 'react-image-magnify'
 import { formatMoney, formatPrice, renderStarFromNumber } from '../../ultils/helper'
 import DOMPurify from 'dompurify'
 import clsx from 'clsx'
+import { useSelector } from 'react-redux'
+import withBase from '../../hocs/withBase'
+import { toast } from 'react-toastify'
+import { getCurrent } from '../../store/user/asyncActions'
+import Swal from 'sweetalert2'
+import path from '../../ultils/path'
 
 const settings = {
   dots: false,
@@ -16,15 +22,16 @@ const settings = {
   slidesToScroll: 1
 }
 
-const DetailProduct = () => {
+const DetailProduct = ({ location, navigate, dispatch }) => {
   const { pid, title, category } = useParams()
+  const { current } = useSelector(state => state.user)
   const [product, setProduct] = useState(null)
   const [currentImage, setCurrentImage] = useState(null)
   const [currentProduct, setCurrentProduct] = useState({
     thumb: '',
     images: [],
     price: '',
-    color: ''
+    color: '',
   })
   const [quantity, setQuantity] = useState(1)
   const [relatedProducts, setRelatedProducts] = useState(null)
@@ -48,6 +55,13 @@ const DetailProduct = () => {
         images: product?.variant?.find(el => el.sku === variant)?.images,
         price: product?.variant?.find(el => el.sku === variant)?.price,
         thumb: product?.variant?.find(el => el.sku === variant)?.thumb,
+      })
+    } else {
+      setCurrentProduct({
+        color: product?.color,
+        images: product?.images || [],
+        price: product?.price,
+        thumb: product?.thumb,
       })
     }
   }, [variant])
@@ -90,6 +104,38 @@ const DetailProduct = () => {
     e.stopPropagation()
     setCurrentImage(el)
   }
+
+  const handleAddToCart = async () => {
+    if (!current) return Swal.fire({
+      title: "Oops!",
+      text: "You must login first!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Go Login"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        navigate({
+          pathname: `/${path.LOGIN}`,
+          search: createSearchParams({ redirect: location.pathname }).toString()
+        })
+      }
+    })
+    const response = await apiUpdateCart({
+      pid,
+      color: currentProduct.color || product.color,
+      quantity,
+      price: currentProduct.price || product.price,
+      thumbnail: currentProduct.thumb || product.thumb,
+    })
+    if (response.success) {
+      toast.success(response.mes)
+      dispatch(getCurrent())
+    }
+    else toast.error(response.mes)
+  }
+  console.log(product)
   return (
     <div>
       <div className='h-[80px] '>
@@ -191,6 +237,7 @@ const DetailProduct = () => {
           <Button
             name='Add To Cart'
             style='w-[200px] px-4 py-2 rounded-md text-white bg-main font-semibold my-2'
+            handleOnClick={handleAddToCart}
           />
         </div>
         {/* <div className='w-1/5'>bonus</div> */}
@@ -215,4 +262,4 @@ const DetailProduct = () => {
   )
 }
 
-export default DetailProduct
+export default withBase(DetailProduct)

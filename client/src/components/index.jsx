@@ -38,6 +38,8 @@ export { default as FormCustomVariant } from './form/FormCustomVariant'
 export { default as MarkdownEditor } from './input/MarkdownEditor'
 export { default as MemberSidebar } from './sidebar/MemberSidebar'
 export { default as ScrollToTop } from './button/ScrollToTop'
+export { default as Cart } from './product/Cart'
+export { default as CartItem } from './product/CartItem'
 
 
 

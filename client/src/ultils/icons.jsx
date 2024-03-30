@@ -3,7 +3,7 @@ import { MdEmail, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { FaShoppingCart, FaUserCircle, FaEye, FaHeart, FaCaretDown, FaCaretUp, FaHome, FaUser, FaProductHunt, FaClipboardList } from "react-icons/fa";
 import { MdStar, MdStarOutline } from "react-icons/md";
 import { FiMenu, FiLogOut, FiEdit } from "react-icons/fi";
-import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowForward, IoIosCloseCircle } from "react-icons/io";
 import { IoArrowUpSharp } from "react-icons/io5";
 import { AiOutlineDown, AiOutlineAppstoreAdd, AiOutlineDashboard } from "react-icons/ai";
 import { BsThreeDots, BsCartCheckFill } from "react-icons/bs";
@@ -35,7 +35,8 @@ const icons = {
     AiOutlineAppstoreAdd,
     AiOutlineDashboard,
     BsCartCheckFill,
-    IoArrowUpSharp
+    IoArrowUpSharp,
+    IoIosCloseCircle
 }
 
 export default icons
