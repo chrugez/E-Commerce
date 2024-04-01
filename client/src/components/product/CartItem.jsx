@@ -62,7 +62,7 @@ const CartItem = ({ product, dispatch, handleChangeQuantity, defaultQuantity = 1
                     <SelectQuantity quantity={quantity} handleQuantity={handleQuantity} handleMinus={handleMinus} handlePlus={handlePlus} />
                 </div>
             </div>
-            <div className='col-span-2 w-full text-center flex items-center justify-center'>{formatMoney(product?.price * quantity)}</div>
+            <div className='col-span-2 w-full text-center flex items-center justify-center'>{formatMoney(product?.price)}</div>
             <div className='col-span-1 w-full text-center flex items-center justify-center'>
                 <span
                     onClick={() => removeProduct(product?.product?._id, product?.color)}

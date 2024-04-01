@@ -40,6 +40,7 @@ export { default as MemberSidebar } from './sidebar/MemberSidebar'
 export { default as ScrollToTop } from './button/ScrollToTop'
 export { default as Cart } from './product/Cart'
 export { default as CartItem } from './product/CartItem'
+export { default as Paypal } from './common/Paypal'
 
 
 

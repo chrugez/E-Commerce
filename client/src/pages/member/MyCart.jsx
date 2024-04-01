@@ -68,13 +68,13 @@ const MyCart = ({ location, dispatch, navigate }) => {
                     </div>
                 ))}
             </div>
-            <div className='w-4/5 mx-auto flex flex-col mb-4 justify-center items-end gap-3 px-4'>
+            {currentCart.length !== 0 && <div className='w-4/5 mx-auto flex flex-col mb-4 justify-center items-end gap-3 px-4'>
                 <span className='flex items-center gap-4'>
                     <span>Subtotal:</span>
                     <span className='text-main font-bold'>{`${formatMoney(currentCart?.reduce((sum, el) => +el?.price * el.quantity + sum, 0))}`}</span>
                 </span>
                 <Button name='Check out' handleOnClick={handleOnClick} />
-            </div>
+            </div>}
         </div>
     )
 }

@@ -5,6 +5,7 @@ import withBase from '../../hocs/withBase'
 import { formatMoney } from '../../ultils/helper'
 import icons from '../../ultils/icons'
 import { updateCart } from '../../store/user/userSlice'
+import path from '../../ultils/path'
 
 const { ImBin } = icons
 
@@ -64,13 +65,13 @@ const DetailCart = ({ location, dispatch, navigate }) => {
                     </div>
                 ))}
             </div>
-            <div className='mx-auto flex flex-col mb-4 justify-center items-end gap-3'>
+            {currentCart.length !== 0 && <div className='mx-auto flex flex-col mb-4 justify-center items-end gap-3'>
                 <span className='flex items-center gap-4'>
                     <span>Subtotal:</span>
                     <span className='text-main font-bold'>{`${formatMoney(currentCart?.reduce((sum, el) => +el?.price * el.quantity + sum, 0))}`}</span>
                 </span>
                 <Button name='Check out' handleOnClick={handleOnClick} />
-            </div>
+            </div>}
         </div>
     )
 }

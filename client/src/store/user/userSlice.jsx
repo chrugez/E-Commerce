@@ -31,6 +31,9 @@ export const userSlice = createSlice({
             const updateItem = state.currentCart.find(el => el.color === color && el.product?._id === pid)
             if (updateItem) updateItem.quantity = quantity
             else state.mes = 'Please try later'
+        },
+        clearCart: (state, action) => {
+            state.currentCart = action.payload.currentCart
         }
     },
     extraReducers: (builder) => {
@@ -52,6 +55,6 @@ export const userSlice = createSlice({
         })
     }
 })
-export const { login, logout, clearMessage, updateCart } = userSlice.actions
+export const { login, logout, clearMessage, updateCart, clearCart } = userSlice.actions
 
 export default userSlice.reducer
