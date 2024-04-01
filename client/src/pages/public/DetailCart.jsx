@@ -8,13 +8,16 @@ import { updateCart } from '../../store/user/userSlice'
 
 const { ImBin } = icons
 
-const DetailCart = ({ location, dispatch }) => {
+const DetailCart = ({ location, dispatch, navigate }) => {
     // console.log(location.pathname)
     const { current, currentCart } = useSelector(state => state.user)
 
     const handleChangeQuantity = (pid, quantity, color) => {
         console.log({ pid, quantity, color })
         dispatch(updateCart({ pid, quantity, color }))
+    }
+    const handleOnClick = () => {
+        navigate(`/${path.CHECKOUT}`)
     }
 
     console.log(currentCart)
@@ -66,7 +69,7 @@ const DetailCart = ({ location, dispatch }) => {
                     <span>Subtotal:</span>
                     <span className='text-main font-bold'>{`${formatMoney(currentCart?.reduce((sum, el) => +el?.price * el.quantity + sum, 0))}`}</span>
                 </span>
-                <Button name='Check out' />
+                <Button name='Check out' handleOnClick={handleOnClick} />
             </div>
         </div>
     )

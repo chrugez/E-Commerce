@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { Home, Login, Public, FAQ, Services, Blog, DetailProduct, Products, FinalRegister, ResetPassword, DetailCart } from './pages/public'
 import { AdminLayout, CreateProduct, Dashboard, ManageOrder, ManageProduct, ManageUser } from './pages/admin'
-import { MemberLayout, MyCart, Personal, History, WishList } from './pages/member'
+import { MemberLayout, MyCart, Personal, History, WishList, Checkout } from './pages/member'
 import path from './ultils/path'
 import { getCategories } from './store/app/asyncActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -51,6 +51,7 @@ function App() {
         <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
         <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         <Route path={path.LOGIN} element={<Login />} />
+        <Route path={path.CHECKOUT} element={<Checkout />} />
       </Routes>
       <ToastContainer
         position="top-right"

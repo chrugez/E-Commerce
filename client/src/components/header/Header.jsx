@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import path from '../../ultils/path'
 import { memo, useEffect, useState } from 'react'
 import withBase from '../../hocs/withBase'
+import { logout, clearMessage } from '../../store/user/userSlice'
 import { showCart } from '../../store/app/appSlice'
 
 const { FaPhoneAlt, MdEmail, FaShoppingCart, FaUserCircle } = icons

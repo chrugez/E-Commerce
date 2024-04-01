@@ -5,7 +5,7 @@ import { renderStarFromNumber } from '../../ultils/helper'
 import { apiRatings } from '../../apis'
 import { useDispatch, useSelector } from 'react-redux'
 import { showModal } from '../../store/app/appSlice'
-import { useNavigate } from 'react-router-dom'
+import { createSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import path from '../../ultils/path'
 
@@ -13,6 +13,7 @@ const ProductInformation = ({ totalRating, totalCount, nameProduct, pid, reRende
     const [activedTab, setActivedTab] = useState(1)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
     const { isLoggedIn } = useSelector(state => state.user)
 
     const handleSubmitVoteOption = async ({ comment, score }) => {
@@ -36,7 +37,10 @@ const ProductInformation = ({ totalRating, totalCount, nameProduct, pid, reRende
                 icon: 'info'
             }).then((rs) => {
                 if (rs.isConfirmed) {
-                    navigate(`/${path.LOGIN}`)
+                    navigate({
+                        pathname: `/${path.LOGIN}`,
+                        search: createSearchParams({ redirect: location.pathname }).toString()
+                    })
                 }
             })
         } else {

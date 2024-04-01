@@ -41,7 +41,10 @@ const TopHeader = () => {
             <span className='font-semibold text-[14px]'>{current?.lastName} {current?.firstName}</span>
             <span
               className='hover:bg-white hover:text-main hover:rounded-md cursor-pointer p-2'
-              onClick={() => dispatch(logout())}
+              onClick={() => {
+                dispatch(logout())
+                navigate(`/`)
+              }}
             >
               <FiLogOut size={18} />
             </span>

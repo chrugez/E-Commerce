@@ -47,7 +47,7 @@ const CartItem = ({ product, dispatch, handleChangeQuantity, defaultQuantity = 1
         handleChangeQuantity && handleChangeQuantity(product?.product?._id, quantity, product?.color)
     }, [quantity])
     return (
-        <div className='w-main mx-auto grid font-bold grid-cols-10 py-3 border'>
+        <div className=' mx-auto grid font-bold grid-cols-10 py-3 border'>
             <div className='col-span-6 w-full'>
                 <div className='flex gap-2 pl-2'>
                     <img src={product?.thumbnail || product?.product?.thumb} alt="thumb" className='w-28 h-28 object-cover' />
