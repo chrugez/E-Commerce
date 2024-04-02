@@ -20,7 +20,8 @@ const Products = () => {
   const { category } = useParams()
   const [params] = useSearchParams()
   const fetchProductsByCategory = async (queries) => {
-    const response = await apiGetProducts({ ...queries, category })
+    if (category && category !== 'products') queries.category = category
+    const response = await apiGetProducts(queries)
     if (response.success) setProducts(response)
   }
   useEffect(() => {

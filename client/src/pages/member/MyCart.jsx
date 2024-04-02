@@ -6,6 +6,8 @@ import { formatMoney } from '../../ultils/helper'
 import icons from '../../ultils/icons'
 import { updateCart } from '../../store/user/userSlice'
 import path from '../../ultils/path'
+import Swal from 'sweetalert2'
+import { createSearchParams } from 'react-router-dom'
 
 const { ImBin } = icons
 
@@ -18,10 +20,29 @@ const MyCart = ({ location, dispatch, navigate }) => {
         dispatch(updateCart({ pid, quantity, color }))
     }
     const handleOnClick = () => {
-        navigate(`/${path.CHECKOUT}`)
+        if (!current?.address) {
+            return Swal.fire({
+                icon: 'info',
+                title: 'Almost!',
+                text: 'Please update your address before checkout',
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonText: 'Go Update',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate({
+                        pathname: `/${path.MEMBER}/${path.PERSONAL}`,
+                        search: createSearchParams({ redirect: location.pathname }).toString()
+                    })
+                }
+            })
+        } else {
+            navigate(`/${path.CHECKOUT}`)
+        }
     }
 
-    console.log(currentCart)
+    console.log(current)
     return (
         <div className=''>
             <div className='flex flex-col justify-start w-full px-4'>
@@ -32,12 +53,12 @@ const MyCart = ({ location, dispatch, navigate }) => {
                 {/* <BreadCrumbs category={location?.pathname?.replace('/', '')?.split('-')?.join(' ')} /> */}
             </div>
             <div className='flex flex-col w-4/5 mx-auto my-8'>
-                <div className='w-full mx-auto grid font-bold grid-cols-10 py-3 bg-white opacity-80 border'>
+                {currentCart.length > 0 && <div className='w-full mx-auto grid font-bold grid-cols-10 py-3 bg-white opacity-80 border'>
                     <div className='col-span-6 w-full text-center'>Product</div>
                     <div className='col-span-1 w-full text-center'>Quantity</div>
                     <div className='col-span-2 w-full text-center'>Price</div>
                     <div className='col-span-1 w-full text-center'>Action</div>
-                </div>
+                </div>}
                 {currentCart.length === 0 && <span className='flex items-center justify-center font-bold text-lg'>Cart is empty!</span>}
                 {currentCart?.map(el => (
                     <div key={el._id} >
@@ -70,7 +91,7 @@ const MyCart = ({ location, dispatch, navigate }) => {
             </div>
             {currentCart.length !== 0 && <div className='w-4/5 mx-auto flex flex-col mb-4 justify-center items-end gap-3 px-4'>
                 <span className='flex items-center gap-4'>
-                    <span>Subtotal:</span>
+                    <span>Total:</span>
                     <span className='text-main font-bold'>{`${formatMoney(currentCart?.reduce((sum, el) => +el?.price * el.quantity + sum, 0))}`}</span>
                 </span>
                 <Button name='Check out' handleOnClick={handleOnClick} />

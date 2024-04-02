@@ -231,7 +231,7 @@ export const memberSidebar = [
     {
         id: 3,
         type: 'single',
-        text: 'History',
+        text: 'Purchase History',
         path: `/${path.MEMBER}/${path.HISTORY}`,
         icon: <FaClipboardList />
     },

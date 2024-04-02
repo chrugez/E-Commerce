@@ -19,6 +19,10 @@ var orderSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User'
     },
+    address: String,
+    payment: String,
+}, {
+    timestamps: true
 });
 
 //Export the model

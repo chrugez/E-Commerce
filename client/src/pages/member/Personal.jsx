@@ -6,10 +6,13 @@ import avatar from '../../assets/no-avatar.png'
 import { apiUpdateCurrent } from '../../apis'
 import { getCurrent } from '../../store/user/asyncActions'
 import { toast } from 'react-toastify'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const Personal = () => {
     const { register, formState: { errors, isDirty }, handleSubmit, reset } = useForm()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
     const { current } = useSelector(state => state.user)
     useEffect(() => {
         reset({
@@ -34,6 +37,7 @@ const Personal = () => {
         if (response.success) {
             dispatch(getCurrent())
             toast.success(response.mes)
+            if (searchParams.get('redirect')) navigate(searchParams.get('redirect'))
         } else toast.error(response.mes)
         // console.log([...formData])
     }
