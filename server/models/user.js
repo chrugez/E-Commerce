@@ -40,6 +40,7 @@ var userSchema = new mongoose.Schema({
         color: String,
         price: Number,
         thumbnail: String,
+        title: String
     }],
     address: String,
     wishlist: [

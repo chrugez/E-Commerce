@@ -263,3 +263,18 @@ export const option = [
         value: 'Active'
     },
 ]
+
+export const statusOrder = [
+    {
+        label: 'Cancelled',
+        value: 'Cancelled'
+    },
+    {
+        label: 'Processing',
+        value: 'Processing'
+    },
+    {
+        label: 'Succeed',
+        value: 'Succeed'
+    },
+]

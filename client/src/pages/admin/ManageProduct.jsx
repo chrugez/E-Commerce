@@ -78,7 +78,7 @@ const ManageProduct = () => {
             <div className='p-4 border-b w-full flex justify-between items-center'>
                 <h1 className='text-3xl font-bold tracking-tight'>Manage Product</h1>
             </div>
-            <div className='flex w-full justify-end px-4 mt-4'>
+            <div className='flex w-full justify-end px-4 my-4'>
                 <form className='w-[45%]'>
                     <InputForm
                         id='q'

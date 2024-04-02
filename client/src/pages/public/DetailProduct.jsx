@@ -128,6 +128,7 @@ const DetailProduct = ({ location, navigate, dispatch }) => {
       quantity,
       price: currentProduct.price || product.price,
       thumbnail: currentProduct.thumb || product.thumb,
+      title: currentProduct.title || product.title,
     })
     if (response.success) {
       toast.success(response.mes)

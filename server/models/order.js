@@ -8,6 +8,7 @@ var orderSchema = new mongoose.Schema({
         color: String,
         price: Number,
         thumbnail: String,
+        title: String
     }],
     status: {
         type: String,
