@@ -12,7 +12,7 @@ const settings = {
 
 const CustomSlider = ({ products, activedTab, normal }) => {
   return (
-    <>
+    <div className='cursor-pointer'>
       {products && <Slider className='custom-slider' {...settings}>
         {products?.map((el, index) => (
           <Product
@@ -24,7 +24,7 @@ const CustomSlider = ({ products, activedTab, normal }) => {
           />
         ))}
       </Slider>}
-    </>
+    </div>
   )
 }
 

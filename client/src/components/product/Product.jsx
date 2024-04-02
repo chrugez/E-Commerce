@@ -7,14 +7,15 @@ import icons from '../../ultils/icons'
 import withBase from '../../hocs/withBase'
 import Swal from 'sweetalert2'
 import path from '../../ultils/path'
-import { apiUpdateCart } from '../../apis'
+import { apiUpdateCart, apiUpdateWishlist } from '../../apis'
 import { toast } from 'react-toastify'
 import { getCurrent } from '../../store/user/asyncActions'
 import { useSelector } from 'react-redux'
+import clsx from 'clsx'
 
 const { FaEye, FiMenu, FaHeart, FaShoppingCart, BsCartCheckFill } = icons
 
-const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
+const Product = ({ productData, isNew, normal, navigate, dispatch, pid, style }) => {
 
     const [isShowOption, setIsShowOption] = useState(false)
     const { current } = useSelector(state => state.user)
@@ -22,7 +23,15 @@ const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
     const handleClickOptions = async (e, option) => {
         e.stopPropagation()
         if (option === 'DETAIL') navigate(`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`)
-        if (option === 'WISHLIST') console.log('WISHLIST')
+        if (option === 'WISHLIST') {
+            const response = await apiUpdateWishlist(pid)
+            if (response.success) {
+                toast.success(response.mes)
+                dispatch(getCurrent())
+            } else {
+                toast.error(response.mes)
+            }
+        }
         if (option === 'ADDCART') {
             // console.log(productData)
             if (!current) return Swal.fire({
@@ -55,7 +64,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
     }
 
     return (
-        <div className="w-full text-base px-2">
+        <div className={clsx("w-full text-base px-2", style)}>
             <div
                 onClick={() => navigate(`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`)}
                 className="w-full border p-[15px] flex flex-col items-center"
@@ -81,7 +90,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
                             <SelectOption icon={<FiMenu />} />
                         </span>
                         <span title='Add Wishlist' onClick={(e) => handleClickOptions(e, 'WISHLIST')}>
-                            <SelectOption icon={<FaHeart />} />
+                            <SelectOption icon={<FaHeart color={current?.wishlist?.some((i) => i._id === pid) ? 'red' : 'black'} />} />
                         </span>
                     </div>}
                     <img

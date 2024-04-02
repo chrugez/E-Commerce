@@ -1,9 +1,11 @@
 import { Banner, Sidebar, BestSeller, DealDaily, FeatureProduct, CustomSlider } from '../../components'
 import { useSelector } from 'react-redux'
 import icons from '../../ultils/icons'
+import withBase from '../../hocs/withBase'
+import { createSearchParams } from 'react-router-dom'
 
 const { MdOutlineKeyboardArrowRight } = icons
-const Home = () => {
+const Home = ({ navigate }) => {
     const { newProducts } = useSelector(state => state.products)
     const { categories } = useSelector(state => state.app)
     const { isLoggedIn, current } = useSelector(state => state.user)
@@ -43,7 +45,14 @@ const Home = () => {
                                     <h4 className='font-semibold uppercase '>{el?.title}</h4>
                                     <ul className='text-sm'>
                                         {el?.brand.map(item => (
-                                            <span key={item} className='flex gap-2 text-gray-500'>
+                                            <span
+                                                key={item}
+                                                className='flex gap-2 text-gray-500 cursor-pointer hover:underline'
+                                                onClick={() => navigate({
+                                                    pathname: `/${el?.title}`,
+                                                    search: createSearchParams({ brand: item }).toString()
+                                                })}
+                                            >
                                                 <MdOutlineKeyboardArrowRight size={14} />
                                                 <li className='text-sm'>{item}</li>
                                             </span>
@@ -55,11 +64,11 @@ const Home = () => {
                     ))}
                 </div>
             </div>
-            <div className='my-8 w-full'>
+            {/* <div className='my-8 w-full'>
                 <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>BLOG POSTS</h3>
-            </div>
+            </div> */}
         </div>
     )
 }
 
-export default Home
+export default withBase(Home)

@@ -155,13 +155,15 @@ const login = asyncHandler(async (req, res) => {
 
 const getCurrent = asyncHandler(async (req, res) => {
     const { _id } = req.user
-    const user = await User.findById(_id).select('-refreshToken -password').populate({
-        path: 'cart',
-        populate: {
-            path: 'product',
-            select: 'title thumb price quantity'
-        }
-    })
+    const user = await User.findById(_id)
+        .select('-refreshToken -password')
+        .populate({
+            path: 'cart',
+            populate: {
+                path: 'product',
+                select: 'title thumb price quantity'
+            }
+        }).populate('wishlist', 'title thumb price color')
     return res.status(200).json({
         success: user ? true : false,
         rs: user ? user : 'User not found!'
@@ -396,7 +398,7 @@ const updateWishList = asyncHandler(async (req, res) => {
     const { _id } = req.user
     const { pid } = req.params
     const user = await User.findById(_id)
-    const alreadyInWishList = user.wishlist?.find(el => el === pid)
+    const alreadyInWishList = user.wishlist?.find(el => el.toString() === pid)
     if (alreadyInWishList) {
         const response = await User.findByIdAndUpdate(_id, { $pull: { wishlist: pid } }, { new: true })
         return res.json({
@@ -404,17 +406,12 @@ const updateWishList = asyncHandler(async (req, res) => {
             mes: response ? 'Updated your wishlist!' : 'Failed to update wishlist!'
         })
     } else {
-        const response = await User.findByIdAndUpdate(_id, { $push: { wihslist: pid } }, { new: true })
+        const response = await User.findByIdAndUpdate(_id, { $push: { wishlist: pid } }, { new: true })
         return res.json({
             success: response ? true : false,
             mes: response ? 'Updated your wishlist!' : 'Failed to update wishlist!'
         })
     }
-    const response = await User.findByIdAndUpdate(_id, { $pull: { cart: { product: pid, color } } }, { new: true })
-    return res.status(200).json({
-        success: response ? true : false,
-        mes: response ? 'Updated your cart' : 'Something went wrong!'
-    })
 })
 
 module.exports = {
