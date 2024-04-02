@@ -5,6 +5,7 @@ import { getNewProducts } from '../../store/product/asyncActions'
 import { useDispatch, useSelector } from 'react-redux'
 import banner2 from '../../assets/banner2.avif'
 import banner3 from '../../assets/banner3.avif'
+import { useNavigate } from 'react-router-dom'
 
 const tabs = [
     { id: 1, name: 'best seller' },
@@ -15,6 +16,7 @@ const BestSeller = () => {
     const [bestSellers, setBestSellers] = useState(null)
     const [activedTab, setActivedTab] = useState(1)
     const [products, setProducts] = useState(null)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const { newProducts } = useSelector(state => state.products)
 
@@ -54,8 +56,17 @@ const BestSeller = () => {
                 <CustomSlider products={products} activedTab={activedTab} />
             </div>
             <div className='w-full flex mt-4 gap-4'>
-                <img src={banner2} alt="banner" className='flex-1 object-contain' />
-                <img src={banner3} alt="banner" className='flex-1 object-contain' />
+                <img
+                    src={banner2}
+                    alt="banner"
+                    className='flex-1 object-contain cursor-pointer'
+                    onClick={() => navigate(`/laptop/660a60864a6c9de580552658/DELL INSPIRON 7460`)}
+                />
+                <img
+                    src={banner3}
+                    alt="banner"
+                    className='flex-1 object-contain cursor-pointer'
+                    onClick={() => navigate(`/laptop/660a60864a6c9de58055265a/APPLE MACBOOK PRO 13"`)} />
             </div>
         </div>
     )
