@@ -12,6 +12,18 @@ const tabs = [
     { id: 2, name: 'new arrivals' }
 ]
 
+const bannerProduct1 = {
+    category: 'laptop',
+    id: '660a60864a6c9de580552658',
+    title: 'DELL INSPIRON 7460'
+}
+
+const bannerProduct2 = {
+    category: 'laptop',
+    id: '660a60864a6c9de58055265a',
+    title: 'APPLE MACBOOK PRO 13"'
+}
+
 const BestSeller = () => {
     const [bestSellers, setBestSellers] = useState(null)
     const [activedTab, setActivedTab] = useState(1)
@@ -60,13 +72,13 @@ const BestSeller = () => {
                     src={banner2}
                     alt="banner"
                     className='flex-1 object-contain cursor-pointer'
-                    onClick={() => navigate(`/laptop/660a60864a6c9de580552658/DELL INSPIRON 7460`)}
+                    onClick={() => navigate(`/${bannerProduct1.category}/${bannerProduct1.id}/${bannerProduct1.title}`)}
                 />
                 <img
                     src={banner3}
                     alt="banner"
                     className='flex-1 object-contain cursor-pointer'
-                    onClick={() => navigate(`/laptop/660a60864a6c9de58055265a/APPLE MACBOOK PRO 13"`)} />
+                    onClick={() => navigate(`/${bannerProduct2.category}/${bannerProduct2.id}/${bannerProduct2.title}`)} />
             </div>
         </div>
     )
