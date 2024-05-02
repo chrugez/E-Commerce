@@ -101,7 +101,7 @@ const ManageProduct = () => {
                             <th className='px-4 py-2'>Price(VND)</th>
                             <th className='px-4 py-2'>Quantity</th>
                             <th className='px-4 py-2'>Variants</th>
-                            <th className='px-4 py-2'>Color</th>
+                            <th className='px-4 py-2'>Default Color</th>
                             <th className='px-4 py-2'>Created At</th>
                             <th className='px-4 py-2'>Actions</th>
                         </tr>

@@ -6,12 +6,14 @@ import { CountDown } from '..'
 import moment from 'moment'
 import { useSelector, useDispatch } from "react-redux"
 import { getDealDaily } from "../../store/product/productSlice"
+import { useNavigate } from "react-router-dom"
 
 const { MdStar, FiMenu } = icons
 let idInterval
 
 const DealDaily = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [hour, setHour] = useState(0)
     const [minute, setMinute] = useState(0)
     const [second, setSecond] = useState(0)
@@ -79,7 +81,7 @@ const DealDaily = () => {
             clearInterval(idInterval)
         }
     }, [hour, minute, second, expireTime])
-
+    // console.log(dealDaily)
     return (
         <div className="w-full border flex-auto">
             <div className="flex items-center justify-between p-4 w-full">
@@ -112,7 +114,7 @@ const DealDaily = () => {
                     className="flex gap-2 items-center justify-center w-full bg-main hover:bg-gray-800 text-white py-2 font-medium"
                 >
                     <FiMenu />
-                    <span>Options</span>
+                    <span onClick={() => navigate(`/${dealDaily?.data?.category}/${dealDaily?.data?._id}/${dealDaily?.data?.title}`)}>Options</span>
                 </button>
             </div>
         </div>
