@@ -69,7 +69,7 @@ const History = ({ navigate, location }) => {
                     <thead className='font-bold bg-white text-black'>
                         <tr className='border border-white'>
                             <th className='px-4 py-2'>#</th>
-                            {/* <th className='px-4 py-2'>OrderId</th> */}
+                            <th className='px-4 py-2'>OrderId</th>
                             <th className='px-4 py-2'>Products</th>
                             <th className='px-4 py-2'>Total Price(VND)</th>
                             <th className='px-4 py-2'>Status</th>
@@ -82,7 +82,7 @@ const History = ({ navigate, location }) => {
                         {order?.map((el, index) => (
                             <tr key={el._id} className='border border-white'>
                                 <td className='px-4 py-2 border-r'>{((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * import.meta.env.VITE_LIMIT) + index + 1}</td>
-                                {/* <td className='px-4 py-2 border-r'>{el._id}</td> */}
+                                <td className='px-4 py-2 border-r'>{el._id}</td>
                                 <td className='px-4 py-2 border-r'>
                                     <ul className='list-disc'>
                                         {el?.products?.map((item, index) => (
@@ -132,6 +132,7 @@ const History = ({ navigate, location }) => {
             <div className='w-full px-2 flex justify-end'>
                 <Pagination
                     totalCount={counts}
+                    name='orders'
                 />
             </div>
         </div>

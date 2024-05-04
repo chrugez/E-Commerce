@@ -3,7 +3,7 @@ import usePagination from '../../hooks/usePagination'
 import { PaginItem } from '..'
 import { useSearchParams } from 'react-router-dom'
 
-const Pagination = ({ totalCount }) => {
+const Pagination = ({ totalCount, name }) => {
     const [params] = useSearchParams()
     const pagination = usePagination(totalCount, +params.get('page') || 1)
 
@@ -17,8 +17,8 @@ const Pagination = ({ totalCount }) => {
     }
     return (
         <div className='flex w-full items-center justify-between'>
-            {!params.get('page') ? <span className='text-sm italic'>{`Show products ${Math.min(totalCount, 1)} - ${Math.min(+import.meta.env.VITE_LIMIT, totalCount)} of ${totalCount}`}</span> : ''}
-            {params.get('page') ? <span className='text-sm italic'>{`Show products ${range()} of ${totalCount}`}</span> : ''}
+            {!params.get('page') ? <span className='text-sm italic'>{`Show ${name} ${Math.min(totalCount, 1)} - ${Math.min(+import.meta.env.VITE_LIMIT, totalCount)} of ${totalCount}`}</span> : ''}
+            {params.get('page') ? <span className='text-sm italic'>{`Show ${name} ${range()} of ${totalCount}`}</span> : ''}
             <div className='flex items-center'>
                 {pagination?.map(el => (
                     <PaginItem key={el}>

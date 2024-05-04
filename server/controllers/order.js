@@ -21,9 +21,9 @@ const updateStatus = asyncHandler(async (req, res) => {
     const { status } = req.body
     if (!status) throw new Error('Missing status!')
     const response = await Order.findByIdAndUpdate(oid, { status }, { new: true })
-    return res.json({
+    return res.status(200).json({
         success: response ? true : false,
-        response: response ? response : 'Something went wrong!'
+        mes: response ? 'Updated' : 'Something went wrong!'
     })
 })
 
@@ -41,7 +41,7 @@ const getUserOrder = asyncHandler(async (req, res) => {
     let colorQueryObject = {}
 
     //filtering
-    // if (queries?.title) formatedQueries.title = { $regex: queries.title, $options: 'i' }
+    // if (queries?.status) formatedQueries.title = { $regex: queries.title, $options: 'i' }
     // if (queries?.category) formatedQueries.category = { $regex: queries.category, $options: 'i' }
     // if (queries?.color) {
     //     delete formatedQueries.color
@@ -123,23 +123,23 @@ const getOrders = asyncHandler(async (req, res) => {
     const formatedQueries = JSON.parse(queryString)
     let colorQueryObject = {}
 
-    //filtering
-    // if (queries?.title) formatedQueries.title = { $regex: queries.title, $options: 'i' }
-    // if (queries?.category) formatedQueries.category = { $regex: queries.category, $options: 'i' }
-    // if (queries?.color) {
-    //     delete formatedQueries.color
-    //     const colorArr = queries.color?.split(',')
-    //     const colorQuery = colorArr.map(el => ({ color: { $regex: el, $options: 'i' } }))
-    //     colorQueryObject = { $or: colorQuery }
-    // }
+    // // filtering
+    // if (queries?.status) formatedQueries.status = { $regex: queries.status, $options: 'i' }
+    // // if (queries?.category) formatedQueries.category = { $regex: queries.category, $options: 'i' }
+    // // if (queries?.color) {
+    // //     delete formatedQueries.color
+    // //     const colorArr = queries.color?.split(',')
+    // //     const colorQuery = colorArr.map(el => ({ color: { $regex: el, $options: 'i' } }))
+    // //     colorQueryObject = { $or: colorQuery }
+    // // }
     // let queryObject = {}
     // if (queries.q) {
     //     delete formatedQueries.q
     //     queryObject = {
     //         $or: [
-    //             { title: { $regex: queries.q, $options: 'i' } },
-    //             { category: { $regex: queries.q, $options: 'i' } },
-    //             { brand: { $regex: queries.q, $options: 'i' } },
+    //             { status: { $regex: queries.q, $options: 'i' } },
+    //             // { category: { $regex: queries.q, $options: 'i' } },
+    //             // { brand: { $regex: queries.q, $options: 'i' } },
 
     //         ]
     //     }

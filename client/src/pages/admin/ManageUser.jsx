@@ -138,6 +138,7 @@ const ManageUser = () => {
                 {data?.counts >= import.meta.env.VITE_LIMIT && <div className='w-full flex justify-end'>
                     <Pagination
                         totalCount={data?.counts}
+                        name='users'
                     />
                 </div>}
             </div>

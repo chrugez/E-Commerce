@@ -17,3 +17,9 @@ export const apiGetUserOrders = (params) => axios({
     method: 'get',
     params
 })
+
+export const apiUpdateStatus = (data, oid) => axios({
+    url: '/order/status/' + oid,
+    method: 'put',
+    data
+})

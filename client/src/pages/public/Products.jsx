@@ -101,7 +101,7 @@ const Products = () => {
         </Masonry>
       </div>
       <div className=' my-4 flex justify-center'>
-        <Pagination totalCount={products?.counts} />
+        <Pagination totalCount={products?.counts} name='products' />
       </div>
       {/* <div className='h-[500px] '></div> */}
     </div>

@@ -153,6 +153,7 @@ const ManageProduct = () => {
             <div className='w-full px-2 flex justify-end'>
                 <Pagination
                     totalCount={counts}
+                    name='products'
                 />
             </div>
         </div>
