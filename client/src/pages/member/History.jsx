@@ -79,7 +79,7 @@ const History = ({ navigate, location }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {order?.map((el, index) => (
+                        {order?.reverse()?.map((el, index) => (
                             <tr key={el._id} className='border border-white'>
                                 <td className='px-4 py-2 border-r'>{((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * import.meta.env.VITE_LIMIT) + index + 1}</td>
                                 <td className='px-4 py-2 border-r'>{el._id}</td>

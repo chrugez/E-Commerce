@@ -43,6 +43,7 @@ export { default as Cart } from './product/Cart'
 export { default as CartItem } from './product/CartItem'
 export { default as Paypal } from './common/Paypal'
 export { default as CustomSelect } from './input/CustomSelect'
+export { default as LineChart } from './chart/LineChart'
 
 
 

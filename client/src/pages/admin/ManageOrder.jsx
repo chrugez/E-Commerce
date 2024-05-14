@@ -102,7 +102,7 @@ const ManageOrder = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data?.orders?.map((el, index) => (
+                        {data?.orders?.reverse()?.map((el, index) => (
                             <tr key={el._id} className='border border-white bg-gray-500'>
                                 <td className='px-4 py-2 border-r'>{index + 1}</td>
                                 <td className='px-4 py-2 border-r'>{el._id}</td>

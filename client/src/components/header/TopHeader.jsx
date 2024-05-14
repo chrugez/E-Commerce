@@ -49,7 +49,7 @@ const TopHeader = () => {
               <FiLogOut size={18} />
             </span>
           </div>
-          : <Link to={`/${path.LOGIN}`} className='hover:text-black'>Sign In Or Create Account</Link>}
+          : <Link to={`/${path.LOGIN}`} className='hover:text-black'>Login or Register</Link>}
       </div>
     </div>
   )
