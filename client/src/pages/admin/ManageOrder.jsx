@@ -61,6 +61,7 @@ const ManageOrder = () => {
         setIsEdit(!isEdit)
     }, [isEdit])
 
+    console.log(data)
 
     return (
         <div className='w-full'>

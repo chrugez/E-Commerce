@@ -1,6 +1,6 @@
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail, MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { FaShoppingCart, FaUserCircle, FaEye, FaHeart, FaCaretDown, FaCaretUp, FaHome, FaUser, FaProductHunt, FaClipboardList } from "react-icons/fa";
+import { FaShoppingCart, FaUserCircle, FaEye, FaHeart, FaCaretDown, FaCaretUp, FaHome, FaUser, FaProductHunt, FaClipboardList, FaMoneyCheckAlt } from "react-icons/fa";
 import { MdStar, MdStarOutline } from "react-icons/md";
 import { FiMenu, FiLogOut, FiEdit } from "react-icons/fi";
 import { IoIosArrowForward, IoIosCloseCircle } from "react-icons/io";
@@ -36,7 +36,8 @@ const icons = {
     AiOutlineDashboard,
     BsCartCheckFill,
     IoArrowUpSharp,
-    IoIosCloseCircle
+    IoIosCloseCircle,
+    FaMoneyCheckAlt
 }
 
 export default icons

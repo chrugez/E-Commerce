@@ -11,7 +11,7 @@ import { clearCart } from "../../store/user/userSlice";
 
 const Checkout = ({ navigate, dispatch }) => {
     const { currentCart, current } = useSelector(state => state.user)
-    console.log(currentCart)
+    console.log(current)
     const handlePayment = async () => {
         const response = await apiCreateOrder({
             products: currentCart,
@@ -61,6 +61,14 @@ const Checkout = ({ navigate, dispatch }) => {
                     </div>
                     <div className='flex-1 flex flex-col justify-between gap-[45px]'>
                         <div className='flex flex-col gap-4'>
+                            <span className='flex gap-4 text-sm items-end'>
+                                <span>Name:</span>
+                                <span className='text-main text-base font-bold'>{current?.firstName} {current?.lastName}</span>
+                            </span>
+                            <span className='flex gap-4 text-sm items-end'>
+                                <span>Mobile:</span>
+                                <span className='text-main text-base font-bold'>{current?.mobile}</span>
+                            </span>
                             <span className='flex gap-4 text-sm items-end'>
                                 <span>Total:</span>
                                 <span className='text-main text-base font-bold'>{`${formatMoney(currentCart?.reduce((sum, el) => +el?.price * el.quantity + sum, 0))} VND`}</span>
