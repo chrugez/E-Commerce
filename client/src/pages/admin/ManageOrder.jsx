@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { apiGetUsers, apiDeleteUser } from '../../apis/user'
 import moment from 'moment'
-import { InputField, Pagination, InputForm, FormUser, FormOrder } from '../../components'
+import { InputField, Pagination, InputForm, FormUser, FormOrder, CustomSelect } from '../../components'
 import useDebounce from '../../hooks/useDebounce'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, createSearchParams, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { showModal } from '../../store/app/appSlice'
 import Swal from 'sweetalert2'
@@ -11,10 +12,13 @@ import { toast } from 'react-toastify'
 import icons from '../../ultils/icons'
 import { apiGetOrders } from '../../apis'
 import { formatMoney } from '../../ultils/helper'
+import { statusOrder } from '../../ultils/constants'
 
 const { FiEdit, ImBin } = icons
 
 const ManageOrder = () => {
+    const { register, formState: { errors }, handleSubmit, reset, watch, setValue } = useForm()
+    const status = watch('status')
     const [data, setData] = useState(null)
     const [queries, setQueries] = useState({
         q: ''
@@ -22,6 +26,7 @@ const ManageOrder = () => {
     const [isEdit, setIsEdit] = useState(false)
     const [render, setRender] = useState(false)
     const [editEl, setEditEl] = useState(null)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [params] = useSearchParams()
     const queriesDebounce = useDebounce(queries.q, 1000)
@@ -61,6 +66,13 @@ const ManageOrder = () => {
         setIsEdit(!isEdit)
     }, [isEdit])
 
+    const handleSearchStatus = ({ value }) => {
+        navigate({
+            pathname: location.pathname,
+            search: createSearchParams({ status: value }).toString()
+        })
+    }
+
     console.log(data)
 
     return (
@@ -77,6 +89,27 @@ const ManageOrder = () => {
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b-2'>
                 <span>Manage Order</span>
             </h1>
+            <div className='flex w-full justify-end items-center px-4 my-4'>
+                <form className='w-[45%]  flex justify-end items-center gap-4'>
+                    {/* <div className='col-span-1'>
+                        <InputForm
+                            id='q'
+                            register={register}
+                            errors={errors}
+                            style={'w-full text-black'}
+                            placeholder='Search orders by status, ...'
+                        />
+                    </div> */}
+                    <div className=' flex items-center'>
+                        <CustomSelect
+                            options={statusOrder}
+                            value={status}
+                            onChange={val => handleSearchStatus(val)}
+                            wrapClassname='w-full'
+                        />
+                    </div>
+                </form>
+            </div>
             <div className='w-full p-4 '>
                 {/* <div className='flex justify-end'>
                     <InputField
@@ -150,12 +183,10 @@ const ManageOrder = () => {
                         ))}
                     </tbody>
                 </table>
-                {data?.counts >= import.meta.env.VITE_LIMIT && <div className='w-full flex justify-end'>
-                    <Pagination
-                        totalCount={data?.counts}
-                        name='orders'
-                    />
-                </div>}
+                <Pagination
+                    totalCount={data?.counts}
+                    name='orders'
+                />
             </div>
         </div>
     )
