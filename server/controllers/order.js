@@ -113,6 +113,8 @@ const getUserOrder = asyncHandler(async (req, res) => {
 
 const getOrders = asyncHandler(async (req, res) => {
     const queries = { ...req.query }
+    // console.log(queries)
+    // const { uid } = req.params
     //tách các trường đặc biệt ra khỏi query
     const excludeFields = ['limit', 'sort', 'page', 'fields']
     excludeFields.forEach(el => delete queries[el])
@@ -184,10 +186,12 @@ const getOrders = asyncHandler(async (req, res) => {
         .exec()
         .then(async (response) => {
             const counts = await Order.find(qr).countDocuments()
+            const orders = await Order.find(qr).populate('orderBy', 'firstName lastName mobile')
             return res.status(200).json({
                 success: response ? true : false,
-                orders: response ? response : 'Cannot find any order!',
+                // orders: response ? response : 'Cannot find any order!',
                 counts,
+                orders
             })
         }).catch((error) => {
             throw new Error(error.message)

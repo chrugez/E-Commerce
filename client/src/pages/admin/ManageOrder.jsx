@@ -92,10 +92,12 @@ const ManageOrder = () => {
                     <thead className='font-bold bg-white text-black'>
                         <tr className='border border-white'>
                             <th className='px-4 py-2'>#</th>
-                            <th className='px-4 py-2'>OrderId</th>
+                            {/* <th className='px-4 py-2'>OrderId</th> */}
                             <th className='px-4 py-2'>Products</th>
                             <th className='px-4 py-2'>Total Price(VND)</th>
                             <th className='px-4 py-2'>Status</th>
+                            <th className='px-4 py-2'>Order By</th>
+                            <th className='px-4 py-2'>Mobile</th>
                             <th className='px-4 py-2'>Address</th>
                             <th className='px-4 py-2'>Payment</th>
                             <th className='px-4 py-2'>Created At</th>
@@ -106,7 +108,7 @@ const ManageOrder = () => {
                         {data?.orders?.reverse()?.map((el, index) => (
                             <tr key={el._id} className='border border-white bg-gray-500'>
                                 <td className='px-4 py-2 border-r'>{index + 1}</td>
-                                <td className='px-4 py-2 border-r'>{el._id}</td>
+                                {/* <td className='px-4 py-2 border-r'>{el._id}</td> */}
                                 <td className='px-4 py-2 border-r'>
                                     <ul className='list-disc pl-2'>
                                         {el?.products?.map((item, index) => (
@@ -116,7 +118,8 @@ const ManageOrder = () => {
                                 </td>
                                 <td className='px-4 py-2 border-r'>{formatMoney(el.total)}</td>
                                 <td className='px-4 py-2 border-r'>{el.status}</td>
-                                {/* <td className='px-4 py-2 border-r'>{el.orderBy}</td> */}
+                                <td className='px-4 py-2 border-r'>{`${el.orderBy.lastName} ${el.orderBy.firstName}`}</td>
+                                <td className='px-4 py-2 border-r'>{el.orderBy.mobile}</td>
                                 <td className='px-4 py-2 border-r'>{el.address}</td>
                                 <td className='px-4 py-2 border-r'>{el.payment}</td>
                                 <td className='px-4 py-2 border-r'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
